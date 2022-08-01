@@ -1,6 +1,7 @@
 {
-  "name": "web-app",
+  "name": "myBizness",
   "version": "0.1.0",
+  "date": "2022",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
