@@ -45,3 +45,7 @@ Diminuer la Perte d'argent
 ![pbs Vente En Ligne](./asset/pbsVenteEnLigne.png)
 ![wbs Vente En Ligne](./asset/wbsVenteEnLigne.png)
 ![cas d'utilisation vente bon cadeau](./asset/UseCaseVenteBonKDO.png)
+**UseCase Vente en ligne**
+![use case vente en ligne](./asset/usecaseventeBonkdoenligne.png)
+**Diagrame sequence system Vente en ligne**
+![use case vente en ligne](./asset/diagram-sequenceVenteEnLigne.png)
