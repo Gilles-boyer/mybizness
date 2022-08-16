@@ -164,13 +164,17 @@ export default {
             {
               id: "62e384402470041c0001a9gh",
               label: "1 session de karting 10min",
+              activity: "Karting",
               price: 15,
+              img: "",
               usedTo: "",
               updateBy: "",
             },
             {
               id: "62e384402470061c0001a9gh",
               label: "1 cagoule",
+              activity: "karting",
+              img: "",
               price: 3,
               usedTo: "",
               updateBy: "",

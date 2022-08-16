@@ -1,0 +1,24 @@
+[
+  {
+    "id": "c1",
+    "name": "CFG kart",
+    "adresse": "400 chemin Robespierre 97437 Ste Anne",
+    "email": "boyer.gilles@live.fr",
+    "tel": "0692 725 584",
+    "open": "09:00",
+    "close": "18:00",
+    "pause_start": "12:00",
+    "pause_end": "14:00"
+  },
+  {
+    "id": "c2",
+    "name": "CFG Voiture",
+    "email": "boyer.gilles@live.fr",
+    "adresse": "400 chemin Robespierre 97437 Ste Anne",
+    "tel": "0692 725 584",
+    "open": "09:00",
+    "close": "18:00",
+    "pause_start": "12:00",
+    "pause_end": "14:00"
+  }
+]

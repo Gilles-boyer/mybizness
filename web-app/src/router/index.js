@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Gift from '../views/Gift.vue'
+import Circuit from '../views/Circuit.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/gift',
     name: 'Gift',
     component: Gift
+  },
+  {
+    path: '/circuit',
+    name: 'Circuit',
+    component: Circuit
   },
   {
     path: '/about',

@@ -1,0 +1,11 @@
+[
+  {
+    "circuit": "c1",
+    "id": "o1",
+    "date": "08/11/2022",
+    "open": "09:00",
+    "close": "18:00",
+    "max_kart": 10,
+    "online": false
+  }
+]

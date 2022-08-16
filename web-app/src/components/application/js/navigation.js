@@ -14,6 +14,7 @@ export default {
       items: [
         { title: "Dashboard", icon: "mdi-view-dashboard", to: "/" },
         { title: "Bon Cadeau", icon: "mdi-gift", to: "/gift" },
+        { title: "Circuit", icon: "mdi-racing-helmet", to: "/circuit" },
       ],
       mini: true,
     };
@@ -29,6 +30,10 @@ export default {
 
           case "Gift":
             return 1;
+            break;
+          
+          case "Circuit":
+            return 2;
             break;
 
           default:

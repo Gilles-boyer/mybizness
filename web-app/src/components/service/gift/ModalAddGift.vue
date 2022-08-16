@@ -18,185 +18,110 @@
           Nouveau Bon
         </v-btn>
       </template>
+
       <v-card>
         <v-toolbar dark color="primary" dense>
           <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
+
           <v-toolbar-title>Bon Cadeau</v-toolbar-title>
+
           <v-spacer></v-spacer>
+
           <v-toolbar-items>
             <v-btn dark text @click="dialog = false"> Save </v-btn>
           </v-toolbar-items>
         </v-toolbar>
-        <v-card class="pa-6" elevation="0">
-          <v-form ref="form" v-model="valid" lazy-validation elevation="0">
-            <v-card-title>
-              Choix des produits :
-              <v-chip color="primary" class="ml-1">{{ totalVoucher }} €</v-chip>
+        <v-row align-content="center" justify="center">
+          <v-col cols="12" sm="11" md="9" xl="8">
+            <v-card-title class="pb-0">
+              Catalogue des produits disponibles en Ligne:
             </v-card-title>
-            <v-autocomplete
-              v-model="gifts"
-              :rules="[(v) => v.length > 0 || 'Item is required']"
-              :items="products"
-              filled
-              chips
-              color="primary"
-              label="Selectionner les produits"
-              item-text="name"
-              multiple
-              return-object
-            >
-              <template v-slot:selection="data">
-                <v-chip
-                  v-bind="data.attrs"
-                  :input-value="data.selected"
-                  close
-                  @click="data.select"
-                  @click:close="remove(data.item)"
-                >
-                  <v-avatar left>
-                    <v-img :src="data.item.img"></v-img>
-                  </v-avatar>
-                  {{ data.item.label }}
-                </v-chip>
-              </template>
-              <template v-slot:item="data">
-                <template v-if="typeof data.item !== 'object'">
-                  <v-list-item-content v-text="data.item"></v-list-item-content>
+
+            <v-card class="pa-6 mt-0" elevation="0">
+              <!--Catalog product online-->
+              <CatalogProduct @productToAdd="addProduct($event)" />
+
+              <!--Form Data-->
+
+              <v-card-title>
+                Valeur de votre bon :
+                <v-chip class="ml-2">{{ totalGifts }} €</v-chip>
+              </v-card-title>
+
+              <v-select
+                v-model="gifts"
+                :items="gifts"
+                label="Liste des cadeaux"
+                prepend-icon="mdi-gift"
+                multiple
+                item-text="label"
+                return-object
+              >
+                <template v-slot:selection="{ item }">
+                  <v-chip>
+                    <v-avatar left>
+                      <v-img :src="item.img"></v-img>
+                    </v-avatar>
+                    {{ item.label }}
+                  </v-chip>
                 </template>
-                <template v-else>
-                  <v-list-item-avatar>
-                    <img :src="data.item.img" />
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      {{ data.item.label }} - {{ data.item.price }} €
-                    </v-list-item-title>
-                    <v-list-item-subtitle
-                      v-html="data.item.group"
-                    ></v-list-item-subtitle>
-                  </v-list-item-content>
-                </template>
-              </template>
-            </v-autocomplete>
+              </v-select>
 
-            <v-checkbox
-              v-model="checkbox"
-              :rules="[(v) => !!v || 'You must agree to continue!']"
-              label="Do you agree?"
-              required
-            ></v-checkbox>
-
-            <v-btn
-              :disabled="!valid"
-              color="success"
-              class="mr-4"
-              @click="validate"
-            >
-              Validate
-            </v-btn>
-
-            <v-btn color="error" class="mr-4" @click="reset">
-              Reset Form
-            </v-btn>
-
-            <v-btn color="warning" @click="resetValidation">
-              Reset Validation
-            </v-btn>
-          </v-form>
-        </v-card>
+              <v-card-title> Le Client : </v-card-title>
+              <v-autocomplete
+                v-model="model"
+                :items="items"
+                :loading="isLoading"
+                :search-input.sync="search"
+                color="white"
+                hide-no-data
+                hide-selected
+                item-text="Description"
+                item-value="API"
+                label="Public APIs"
+                placeholder="Start typing to Search"
+                prepend-icon="mdi-database-search"
+                return-object
+              ></v-autocomplete>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-card>
     </v-dialog>
   </v-row>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+import CatalogProduct from "./CatalogProduct.vue";
 export default {
   data() {
-    const srcs = {
-      1: "https://www.letelegramme.fr/images/2019/07/12/cette-piste-du-gp-circuit-je-pourrais-la-faire-les-yeux_4687124.jpg",
-      2: "https://cdn.abcmoteur.fr/wp-content/uploads/2014/12/Renault-Megane-RS-Easydrift.jpg",
-      3: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-      4: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-      5: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-    };
     return {
-      autoUpdate: true,
-      gifts: [],
-      isUpdating: false,
-      name: "Midnight Crew",
-      products: [
-        { header: "Karting" },
-        {
-          label: "1 session de karting",
-          group: "Karting",
-          price: 15,
-          img: srcs[1],
-        },
-        { divider: true },
-        { header: "Easydrift" },
-        {
-          label: "Bapteme Easydrift",
-          group: "Easydrift",
-          price: 39,
-          img: srcs[2],
-        },
-      ],
       dialog: false,
-      notifications: false,
-      sound: true,
-      widgets: false,
-      valid: true,
-      name: "",
-      nameRules: [
-        (v) => !!v || "Name is required",
-        (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-      ],
-      email: "",
-      emailRules: [
-        (v) => !!v || "E-mail is required",
-        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-      ],
-      select: null,
-      items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-      checkbox: false,
+      gifts: [],
     };
   },
-  watch: {
-    isUpdating(val) {
-      if (val) {
-        setTimeout(() => (this.isUpdating = false), 3000);
-      }
+  watch: {},
+  methods: {
+    ...mapActions(["updateUser"]),
+    addProduct(product) {
+      this.gifts.push(product);
     },
   },
-
   computed: {
-    totalVoucher() {
+    ...mapGetters(["getUsers"]),
+    totalGifts() {
       var total = 0;
       if (this.gifts.length > 0) {
-        this.gifts.forEach((gift) => {
-          total += gift.price;
+        this.gifts.forEach((item) => {
+          total += item.price;
         });
       }
       return total;
     },
   },
-
-  methods: {
-    remove(item) {
-      const index = this.gifts.indexOf(item.name);
-      if (index >= 0) this.gifts.splice(index, 1);
-    },
-    validate() {
-      this.$refs.form.validate();
-    },
-    reset() {
-      this.$refs.form.reset();
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation();
-    },
-  },
+  components: { CatalogProduct },
 };
 </script>
