@@ -7,7 +7,7 @@
             alt="CFG logo"
             class="shrink mr-2"
             contain
-            src="../public/logo.svg"
+            src="https://gilles-boyer.github.io/mybizness/form-voucher/dist/logo.svg"
             transition="scale-transition"
             width="70"
           />
