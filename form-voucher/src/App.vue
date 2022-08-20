@@ -2,40 +2,49 @@
   <v-app>
     <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+        <v-btn text href="https://www.cfg.re/">
+          <v-img
+            alt="CFG logo"
+            class="shrink mr-2"
+            contain
+            src="../public/logo.svg"
+            transition="scale-transition"
+            width="70"
+          />
+        </v-btn>
       </div>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
+      <v-btn href="/" text>
         <span class="mr-2"></span>
-        <v-icon>mdi-open-in-new</v-icon>
+        <v-icon>mdi-gift</v-icon>
+        <span class="mr-2"></span>
+        SOLUTION BON CADEAU
       </v-btn>
     </v-app-bar>
 
     <v-main>
       <router-view />
     </v-main>
+    <v-footer padle>
+      <v-row justify="center">
+        <v-col
+          class="text-center primary--text text-overline ma-0 pa-0"
+          cols="12"
+        >
+          {{ new Date().getFullYear() }} - CFG
+        </v-col>
+        <v-btn color="primary" class="mb-2" text rounded small>
+          <v-icon small> mdi-phone </v-icon>
+          0692 725 584
+        </v-btn>
+        <v-btn color="primary" class="mb-2" text rounded small>
+          <v-icon small> mdi-email </v-icon>
+          CONTACT
+        </v-btn>
+      </v-row>
+    </v-footer>
   </v-app>
 </template>
 
