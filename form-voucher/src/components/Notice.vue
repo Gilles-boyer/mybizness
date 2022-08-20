@@ -19,7 +19,7 @@
             <v-img
               max-height="200"
               max-width="200"
-              src="../../public/image/cadeau.png"
+              src="https://gilles-boyer.github.io/mybizness/form-voucher/dist/image/cadeau.png"
               class="mx-auto pa-16"
             ></v-img>
           </v-col>
@@ -37,7 +37,7 @@
             <v-img
               max-height="200"
               max-width="200"
-              src="../../public/image/custum.png"
+              src="https://gilles-boyer.github.io/mybizness/form-voucher/dist/image/custum.png"
               class="mx-auto pa-16"
             ></v-img>
           </v-col>
@@ -55,7 +55,7 @@
             <v-img
               max-height="200"
               max-width="200"
-              src="../../public/image/form.png"
+              src="https://gilles-boyer.github.io/mybizness/form-voucher/dist/image/form.png"
               class="mx-auto pa-16"
             ></v-img>
           </v-col>
@@ -73,7 +73,7 @@
             <v-img
               max-height="200"
               max-width="200"
-              src="../../public/image/cb.png"
+              src="https://gilles-boyer.github.io/mybizness/form-voucher/dist/image/cb.png"
               class="mx-auto pa-16"
             ></v-img>
           </v-col>
@@ -91,7 +91,7 @@
             <v-img
               max-height="200"
               max-width="200"
-              src="../../public/image/invoice.png"
+              src="https://gilles-boyer.github.io/mybizness/form-voucher/dist/image/invoice.png"
               class="mx-auto pa-16"
             ></v-img>
           </v-col>
