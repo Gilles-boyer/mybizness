@@ -11,7 +11,9 @@
         <Notice />
       </v-col>
       <v-col cols="12" style="height: 20px" class="ma-0 pa-0">
-        <v-btn color="primary" rounded elevation="10"> COMMENCER </v-btn>
+        <v-btn color="primary" rounded elevation="10" to="/boncadeau">
+          COMMENCER
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -26,8 +28,6 @@ export default {
   components: {
     Notice,
   },
-  mounted() {
-    console.log(document.getElementById("f_form41724983"));
-  },
+  mounted() {},
 };
 </script>
