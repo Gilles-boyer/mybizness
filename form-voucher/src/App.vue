@@ -1,16 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="primary" dark absolute>
       <div class="d-flex align-center">
         <v-btn text href="https://www.cfg.re/">
-          <v-img
-            alt="CFG logo"
-            class="shrink mr-2"
-            contain
-            src="https://gilles-boyer.github.io/mybizness/form-voucher/dist/logo.svg"
-            transition="scale-transition"
-            width="70"
-          />
+          <v-img alt="CFG logo" class="shrink mr-2" contain src="../public/logo.svg" transition="scale-transition"
+            width="70" />
         </v-btn>
       </div>
 
@@ -29,10 +23,7 @@
     </v-main>
     <v-footer padle>
       <v-row justify="center">
-        <v-col
-          class="text-center primary--text text-overline ma-0 pa-0"
-          cols="12"
-        >
+        <v-col class="text-center primary--text text-overline ma-0 pa-0" cols="12">
           {{ new Date().getFullYear() }} - CFG
         </v-col>
         <v-btn color="primary" class="mb-2" text rounded small>
@@ -50,8 +41,8 @@
 
 <script>
 export default {
-  name: "Test",
+  name: 'Test',
 
-  data: () => ({}),
-};
+  data: () => ({})
+}
 </script>

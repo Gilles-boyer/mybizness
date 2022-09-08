@@ -1,16 +1,12 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <v-alert type="error" v-if="error"
-        >Merci de selectionner un produit avant de continuer</v-alert
-      ></v-col
-    >
+      <v-alert type="error" v-if="error">Merci de selectionner un produit avant de continuer</v-alert>
+    </v-col>
 
     <v-col cols="12" sm="12" md="6" xl="6">
       <v-toolbar dense elevation="0">
-        <v-toolbar-title class="primary--text"
-          >Merci de choisir vos produits dans la liste :</v-toolbar-title
-        >
+        <v-toolbar-title class="primary--text">Merci de choisir vos produits dans la liste :</v-toolbar-title>
       </v-toolbar>
       <CatalogProduct @productToAdd="addProduct($event)" />
     </v-col>
@@ -18,9 +14,7 @@
     <v-divider vertical></v-divider>
     <v-col cols="12" sm="12" md="6" xl="6">
       <v-toolbar dense elevation="0">
-        <v-toolbar-title class="primary--text"
-          >Votre choix de Cadeaux :</v-toolbar-title
-        >
+        <v-toolbar-title class="primary--text">Votre choix de Cadeaux :</v-toolbar-title>
       </v-toolbar>
       <v-data-table :headers="headers" :items="gifts" hide-default-footer>
         <template v-slot:item.img="{ item }">
@@ -29,31 +23,23 @@
           </v-avatar>
         </template>
         <template v-slot:item.action="{ index }">
-          <v-btn icon @click="deleteProduct(index)"
-            ><v-icon color="error" medium>mdi-delete</v-icon></v-btn
-          >
+          <v-btn icon @click="deleteProduct(index)">
+            <v-icon color="error" medium>mdi-delete</v-icon>
+          </v-btn>
         </template>
         <template v-slot:body.append>
           <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td
-              style="background-color: #04153b"
-              class="text-center font-weight-bold white--text"
-            >
+            <td style="background-color: #04153b" class="text-center font-weight-bold white--text">
               Total : {{ totalGifts }} €
             </td>
           </tr>
         </template>
       </v-data-table>
       <v-row justify="center" class="mt-4">
-        <V-btn
-          @click="goToStep2()"
-          class="my-4"
-          color="primary"
-          :disabled="active"
-        >
+        <V-btn @click="goToStep2()" class="my-4" color="primary" :disabled="active">
           Continuer
         </V-btn>
       </v-row>

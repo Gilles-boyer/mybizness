@@ -1,13 +1,7 @@
 <template>
   <v-list>
-    <v-list-group
-      v-for="item in items"
-      :key="item.title"
-      v-model="item.active"
-      :prepend-icon="item.action"
-      color="primary"
-      no-action
-    >
+    <v-list-group v-for="item in items" :key="item.title" v-model="item.active" :prepend-icon="item.action"
+      color="primary" no-action>
       <template v-slot:activator>
         <v-list-item-content>
           <v-list-item-title v-text="item.title"></v-list-item-title>
@@ -22,8 +16,7 @@
           <v-card-text>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <span v-bind="attrs" v-on="on"
-                  >{{ data.label }} - {{ data.price }} €
+                <span v-bind="attrs" v-on="on">{{ data.label }} - {{ data.price }} €
                 </span>
               </template>
               <span>
