@@ -238,7 +238,7 @@ export default {
       if(this.voucher.giftsList.length > 0 ){
          this.voucher.giftsList.forEach(gift => totalGift += gift.price);
       }
-      return total;
+      return totalGift;
     }
   }
 };
