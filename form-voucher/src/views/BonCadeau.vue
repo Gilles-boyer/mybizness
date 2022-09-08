@@ -204,7 +204,7 @@ export default {
   },
   data() {
     return {
-      e1: 4,
+      e1: 1,
       voucher: {
         client: {
           firstName: "",
