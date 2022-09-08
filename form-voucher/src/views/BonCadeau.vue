@@ -186,12 +186,12 @@ export default {
     confirmationAndPaiement() {
       var form = document.getElementById("f_form91486208");
 
-      test.innerHTML += `<input type="text" name="payment[first_name]" value="${this.voucher.client.firstName}"/>`;
-      test.innerHTML += `<input type="text" name="payment[last_name]" value="${this.voucher.client.lastName}"/>`;
-      test.innerHTML += `<input type="text" name="payment[payment_email]" value="${this.voucher.client.email}"/>`;
-      test.innerHTML += `<input type="text" name="payment[phone]" value="${this.voucher.client.tel}"/>`;
-      test.innerHTML += `<input type="text" name="payment[price]" value="${this.total}"/>`;
-      test.innerHTML += `<input type="text" name="payment[description]" value="${JSON.stringify(this.voucher)}"/>`;
+      form.innerHTML += `<input type="text" name="payment[first_name]" value="${this.voucher.client.firstName}"/>`;
+      form.innerHTML += `<input type="text" name="payment[last_name]" value="${this.voucher.client.lastName}"/>`;
+      form.innerHTML += `<input type="text" name="payment[payment_email]" value="${this.voucher.client.email}"/>`;
+      form.innerHTML += `<input type="text" name="payment[phone]" value="${this.voucher.client.tel}"/>`;
+      form.innerHTML += `<input type="text" name="payment[price]" value="${this.total}"/>`;
+      form.innerHTML += `<input type="text" name="payment[description]" value="${JSON.stringify(this.voucher)}"/>`;
 
       form.submit();
     },
