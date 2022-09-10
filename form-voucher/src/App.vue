@@ -3,7 +3,7 @@
     <v-app-bar app color="primary" dark absolute>
       <div class="d-flex align-center">
         <v-btn text href="https://www.cfg.re/">
-          <v-img alt="CFG logo" class="shrink mr-2" contain :src="$store.state.base+'/public/logo.svg'" transition="scale-transition"
+          <v-img alt="CFG logo" class="shrink mr-2" contain :src="url+'/public/logo.svg'" transition="scale-transition"
             width="70" />
         </v-btn>
       </div>
@@ -40,9 +40,12 @@
 </template>
 
 <script>
+  import urlBase from "./data/urlBase.json"
 export default {
-  name: 'Test',
+  name: 'App',
 
-  data: () => ({})
+  data: () => ({
+    url: urlBase.base,
+  })
 }
 </script>
