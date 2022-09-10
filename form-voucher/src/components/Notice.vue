@@ -19,7 +19,7 @@
             <v-img
               max-height="200"
               max-width="200"
-              :src="$store.state.base+'/public/image/cadeau.png'"
+              :src="url + '/public/image/cadeau.png'"
               class="mx-auto pa-16"
             ></v-img>
           </v-col>
@@ -37,7 +37,7 @@
             <v-img
               max-height="200"
               max-width="200"
-              :src="$store.state.base+'/public/image/custum.png'"
+              :src="url + '/public/image/custum.png'"
               class="mx-auto pa-16"
             ></v-img>
           </v-col>
@@ -55,7 +55,7 @@
             <v-img
               max-height="200"
               max-width="200"
-              :src="$store.state.base+'/public/image/form.png'"
+              :src="url + '/public/image/form.png'"
               class="mx-auto pa-16"
             ></v-img>
           </v-col>
@@ -73,7 +73,7 @@
             <v-img
               max-height="200"
               max-width="200"
-              :src="$store.state.base+'/public/image/cb.png'"
+              :src="url + '/public/image/cb.png'"
               class="mx-auto pa-16"
             ></v-img>
           </v-col>
@@ -91,7 +91,7 @@
             <v-img
               max-height="200"
               max-width="200"
-              :src="$store.state.base+'/public/image/invoice.png'"
+              :src="url + '/public/image/invoice.png'"
               class="mx-auto pa-16"
             ></v-img>
           </v-col>
@@ -102,10 +102,12 @@
 </template>
 
 <script>
+import urlBase from "../data/urlBase.json";
 export default {
-  name: "HelloWorld",
+  name: "Notice",
 
   data: () => ({
+    url: urlBase.base,
   }),
 };
 </script>
