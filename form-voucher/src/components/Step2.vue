@@ -25,7 +25,7 @@
       </v-form>
     </v-col>
     <v-overlay color="primary" :absolute="absolute" :opacity="opacity" :value="overlay">
-      <v-img src="../../public/image/rotatePhone.gif"></v-img>
+      <v-img :src="url + '/public/image/rotatePhone.gif'"></v-img>
     </v-overlay>
   </v-row>
 </template>
@@ -33,11 +33,13 @@
 import ModelBonKdo from "./ModelBonKdo";
 import dataFontFamily from "../data/listFontFamily.json";
 import dataColor from "../data/listColor.json";
+import urlBase from "../data/urlBase.json"
 export default {
   components: {
     ModelBonKdo,
   },
   data: () => ({
+    url: urlBase.base,
     absolute: true,
     colorGift: { name: "Bleu", code: "primary" },
     listColor: dataColor,

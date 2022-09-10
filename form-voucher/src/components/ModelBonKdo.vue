@@ -28,7 +28,7 @@
                 </v-card-text>
               </v-col>
               <v-col cols="3">
-                <v-img alt="CFG logo" :src="$store.state.base+'/public/logo.svg'"  />
+                <v-img alt="CFG logo" :src="url+'/public/logo.svg'"  />
               </v-col>
             </v-row>
           </v-col>
@@ -105,6 +105,7 @@
 </template>
 
 <script>
+   import urlBase from "../data/urlBase.json"
 export default {
   props: {
     background: {
@@ -125,6 +126,7 @@ export default {
   },
   data: () => ({
     widthScreenSize: window.innerWidth,
+    url: urlBase.base,
   }),
   methods: {
     myEventHandler(e) {

@@ -60,7 +60,7 @@
               et Payer
               <v-icon class="ml-2">mdi-cash</v-icon>
             </v-btn>
-            <form id="f_form91486208" action="https://cte.vosfactures.fr/payments" method="post"></form>
+            <form style="position: absolute; top: -999px; left: -999px;" id="f_form91486208" action="https://cte.vosfactures.fr/payments" method="post"></form>
           </v-row>
         </v-stepper-content>
       </v-stepper-items>
@@ -69,11 +69,12 @@
 </template>
 
 <script>
+
 import Step1 from "../components/Step1.vue";
 import Step2 from "../components/Step2.vue";
 import Step3 from "../components/Step3.vue";
 import Step4 from "../components/Step4.vue";
-import paiement from "../services/paiement";
+
 export default {
   methods: {
     addListGifts(list) {
