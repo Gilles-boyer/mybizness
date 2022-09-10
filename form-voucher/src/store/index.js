@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    base:"https://gilles-boyer.github.io/mybizness/form-voucher/"
   },
   mutations: {
   },

@@ -2,12 +2,7 @@
   <v-container fill-height fluid align-center justify-center>
     <v-stepper v-model="e1" width="90%" class="f100">
       <v-stepper-header>
-        <v-stepper-step
-          :complete="e1 > 1"
-          step="1"
-          color="error"
-          class="font-weight-bold"
-        >
+        <v-stepper-step :complete="e1 > 1" step="1" color="error" class="font-weight-bold">
           Je choisis mes cadeaux
         </v-stepper-step>
 
@@ -52,12 +47,7 @@
             <v-icon dense color="primary">mdi-arrow-left-circle</v-icon>
           </v-btn>
           <v-row justify="center" align="center" class="pa-4">
-            <v-btn
-              color="primary"
-              class="mx-auto"
-              @click="confirmationAndPaiement()"
-              block
-            >
+            <v-btn color="primary" class="mx-auto" @click="confirmationAndPaiement()" block>
               <v-icon class="mr-2">mdi-check-circle-outline</v-icon> Confirmer
               et Payer
               <v-icon class="ml-2">mdi-cash</v-icon>
@@ -65,92 +55,12 @@
           </v-row>
           <Step4 :confirmationData="voucher" />
           <v-row justify="center" align="center" class="pa-4">
-            <v-btn
-              color="primary"
-              class="mx-auto"
-              @click="confirmationAndPaiement()"
-              block
-            >
+            <v-btn color="primary" class="mx-auto" @click="confirmationAndPaiement()" block>
               <v-icon class="mr-2">mdi-check-circle-outline</v-icon> Confirmer
               et Payer
               <v-icon class="ml-2">mdi-cash</v-icon>
             </v-btn>
-            <form
-              id="f_form91486208"
-              class="f_form horizontal"
-              autocomplete="off"
-              action="https://cte.vosfactures.fr/payments"
-              accept-charset="UTF-8"
-              method="post"
-            >
-              <input
-                type="hidden"
-                name="authenticity_token"
-                value="c7cO6VxxIgxiPZMP4DP5zFZ9BBmgOURk4WBaXFhIKh2T+/rkDKb5jL1fjxk7f6GNW3lK8HeuXbfCHDSUUhC1+g=="
-              /><input
-                type="hidden"
-                value="trdsfgdqgdggsfdgfd"
-                name="payment[description]"
-                id="payment_description"
-              />
-              <input
-                value="autopayment"
-                type="hidden"
-                name="payment[kind]"
-                id="payment_kind"
-              />
-              <input
-                id="f_oid91486208"
-                class="f_oid"
-                type="hidden"
-                name="payment[oid]"
-                value=""
-              />
-              <input type="hidden" name="payment[field1]" id="payment_field1" />
-              <input type="hidden" name="payment[field2]" id="payment_field2" />
-              <input type="hidden" name="payment[field3]" id="payment_field3" />
-              <input type="hidden" name="payment[field4]" id="payment_field4" />
-              <input type="hidden" name="payment[field5]" id="payment_field5" />
-              <input type="hidden" name="lang" id="lang" value="fr" /><input
-                type="hidden"
-                value="598713"
-                name="payment[account_id]"
-                id="payment_account_id"
-              />
-              <input
-                type="hidden"
-                value="test gilles"
-                name="payment[name]"
-                id="payment_name"
-              />
-              <input
-                type="hidden"
-                value="91486208"
-                name="payment[product_id]"
-                id="payment_product_id"
-              />
-              <input
-                type="hidden"
-                name="payment[department_id]"
-                id="payment_department_id"
-              />
-              <input
-                type="hidden"
-                name="payment[invoice_id]"
-                id="payment_invoice_id"
-              />
-              <input
-                type="hidden"
-                value="https://cte.vosfactures.fr/"
-                name="payment[referrer]"
-                id="payment_referrer"
-              />
-              <input
-                type="hidden"
-                name="payment[additional_discount]"
-                id="payment_additional_discount"
-              />
-            </form>
+            <form id="f_form91486208" action="https://cte.vosfactures.fr/payments" method="post"></form>
           </v-row>
         </v-stepper-content>
       </v-stepper-items>
@@ -186,13 +96,22 @@ export default {
     confirmationAndPaiement() {
       var form = document.getElementById("f_form91486208");
 
+      form.innerHTML += `<input type="text" name="payment[kind]" value="autopayment"/>`;
+      form.innerHTML += `<input type="text" name="payment[account_id]" value="598713"/>`;
+      form.innerHTML += `<input type="text" name="payment[name]" value="bon cadeau"/>`;
+      form.innerHTML += `<input type="text" name="payment[product_id]" value="91486208"/>`;
+      form.innerHTML += `<input type="text" name="payment[provider]" value="stripe"/>`;
+      form.innerHTML += `<input type="text" name="payment[referrer]" value="https://cte.vosfactures.fr/"/>`;
+      form.innerHTML += `<input type="text" name="payment[generate_invoice]" value="1"/>`;
+      form.innerHTML += `<input type="text" name="lang" value="fr"/>`;
       form.innerHTML += `<input type="text" name="payment[first_name]" value="${this.voucher.client.firstName}"/>`;
       form.innerHTML += `<input type="text" name="payment[last_name]" value="${this.voucher.client.lastName}"/>`;
-      form.innerHTML += `<input type="text" name="payment[payment_email]" value="${this.voucher.client.email}"/>`;
+      form.innerHTML += `<input type="text" name="payment[email]" value="${this.voucher.client.email}"/>`;
       form.innerHTML += `<input type="text" name="payment[phone]" value="${this.voucher.client.tel}"/>`;
-      form.innerHTML += `<input type="text" name="payment[price]" value="${this.total}"/>`;
-      form.innerHTML += `<input type="text" name="payment[description]" value="${JSON.stringify(this.voucher)}"/>`;
-
+      form.innerHTML += `<input type="text" name="payment[price" value="${this.total.toString()}"/>`;
+      form.innerHTML += `<input type="text" name="payment[field1]" value='${JSON.stringify(
+        this.voucher
+      )}'/>`;
       form.submit();
     },
     nextStep() {
@@ -233,13 +152,13 @@ export default {
     Step4,
   },
   computed: {
-    total(){
-      var totalGift = 0
-      if(this.voucher.giftsList.length > 0 ){
-         this.voucher.giftsList.forEach(gift => totalGift += gift.price);
+    total() {
+      var totalGift = 0;
+      if (this.voucher.giftsList.length > 0) {
+        this.voucher.giftsList.forEach((gift) => (totalGift += gift.price));
       }
       return totalGift;
-    }
-  }
+    },
+  },
 };
 </script>

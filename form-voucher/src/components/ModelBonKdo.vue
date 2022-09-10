@@ -1,5 +1,5 @@
 <template>
-  <v-card :style="fontFamily" class="rounded-xl white--text mt-4" :color="background" height="400">
+  <v-card :style="fontFamily" class="rounded-xl white--text mt-4 mb-4" :color="background">
     <v-row justify="center" align-content="center" class="f100 pa-2">
       <v-col cols="3">
         <v-img :aspect-ratio="sizeImg" style="border-radius: 25px" :src="themeGift.img"></v-img>
@@ -28,7 +28,7 @@
                 </v-card-text>
               </v-col>
               <v-col cols="3">
-                <v-img alt="CFG logo" src="../../public/logo.svg" :aspect-ratio="13 / 6" />
+                <v-img alt="CFG logo" :src="$store.state.base+'/public/logo.svg'"  />
               </v-col>
             </v-row>
           </v-col>
