@@ -79,24 +79,26 @@ export default {
   methods: {
     addListGifts(list) {
       this.voucher.giftsList = list;
-      console.log(this.voucher);
       this.nextStep();
     },
     addPersonalization(data) {
       this.voucher.personalization = data;
-      console.log(this.voucher);
       this.nextStep();
     },
     addDataForm(data) {
       this.voucher.client = data.client;
       this.voucher.beneficiary = data.beneficiary;
       this.voucher.shippingMethod = data.shippingMethod;
-      console.log(this.voucher);
       this.nextStep();
     },
     confirmationAndPaiement() {
       var form = document.getElementById("f_form91486208");
+      var tabIdGift = [];
 
+      //select gift id only for api
+      this.voucher.giftsList.forEach(element => tabIdGift.push(element.id))
+
+      //request by form method post
       form.innerHTML += `<input type="text" name="payment[kind]" value="autopayment"/>`;
       form.innerHTML += `<input type="text" name="payment[account_id]" value="598713"/>`;
       form.innerHTML += `<input type="text" name="payment[name]" value="bon cadeau"/>`;
@@ -110,9 +112,11 @@ export default {
       form.innerHTML += `<input type="text" name="payment[email]" value="${this.voucher.client.email}"/>`;
       form.innerHTML += `<input type="text" name="payment[phone]" value="${this.voucher.client.tel}"/>`;
       form.innerHTML += `<input type="text" name="payment[price" value="${this.total.toString()}"/>`;
-      form.innerHTML += `<input type="text" name="payment[field1]" value='${JSON.stringify(
-        this.voucher
-      )}'/>`;
+      form.innerHTML += `<input type="text" name="payment[field1]" value='${JSON.stringify(this.voucher.beneficiary)}'/>`;
+      form.innerHTML += `<input type="text" name="payment[field2]" value='${JSON.stringify(this.voucher.personalization)}'/>`;
+      form.innerHTML += `<input type="text" name="payment[field3]" value='${JSON.stringify(this.voucher.shippingMethod)}'/>`;
+      form.innerHTML += `<input type="text" name="payment[field4]" value='${JSON.stringify(tabIdGift)}'/>`;
+
       form.submit();
     },
     nextStep() {

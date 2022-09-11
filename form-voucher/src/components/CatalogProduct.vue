@@ -46,11 +46,13 @@ export default {
           action: "mdi-go-kart",
           items: [
             {
+              id: "karting1",
               img: srcs[1],
               label: "karting de 10min pour une personne",
               price: 15,
             },
             {
+              id: "karting2",
               img: srcs[1],
               label: "karting de 2 x 10min pour une personne",
               price: 28,
@@ -62,11 +64,13 @@ export default {
           action: "mdi-car-select",
           items: [
             {
+              id: "easy1",
               img: srcs[2],
               label: "Baptême de easydrift",
               price: 39,
             },
             {
+              id: "easy2",
               img: srcs[2],
               label: "Inititiation Easydrift 20min",
               price: 89,

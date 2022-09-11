@@ -44,12 +44,12 @@ export default {
     colorGift: { name: "Bleu", code: "primary" },
     listColor: dataColor,
     listTheme: [
-      { name: "Standard", img: "https://lh3.googleusercontent.com/Kw1ECouosamsscGTfG-BjnXJTg1wklDYUaDozZ5x_DQb4NTQ2xntYd6ERgA5pHEsEwRzNVBv8X8eeIx6=s0" },
-      { name: "Easydrift", img: "https://easydriftdts.com/wp-content/uploads/2019/04/cfg_boutique.jpg" }
+      { id:1, name: "Standard", img: "https://lh3.googleusercontent.com/Kw1ECouosamsscGTfG-BjnXJTg1wklDYUaDozZ5x_DQb4NTQ2xntYd6ERgA5pHEsEwRzNVBv8X8eeIx6=s0" },
+      { id:2, name: "Easydrift", img: "https://easydriftdts.com/wp-content/uploads/2019/04/cfg_boutique.jpg" }
     ],
     listFontFamily: dataFontFamily,
     fontFamily: "Roboto",
-    theme: { name: "Standard", img: "https://lh3.googleusercontent.com/Kw1ECouosamsscGTfG-BjnXJTg1wklDYUaDozZ5x_DQb4NTQ2xntYd6ERgA5pHEsEwRzNVBv8X8eeIx6=s0" },
+    theme: { id:1, name: "Standard", img: "https://lh3.googleusercontent.com/Kw1ECouosamsscGTfG-BjnXJTg1wklDYUaDozZ5x_DQb4NTQ2xntYd6ERgA5pHEsEwRzNVBv8X8eeIx6=s0" },
     opacity: 1,
     overlay: false,
     valid: true,
@@ -70,7 +70,7 @@ export default {
           this.message = "A trés vite au circuit !"
         }
         var personalization = {
-          theme: this.theme,
+          theme: this.theme.id,
           backgroundColor: this.colorGift.code,
           fontFamily: this.fontFamily,
           message: this.message,

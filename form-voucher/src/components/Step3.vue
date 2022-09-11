@@ -79,7 +79,7 @@ export default {
     shippingMethod: "",
     rule: {
       required: (v) => !!v || "Ce champ est obligatoire",
-      minCharTel: (v) => v.length <= 10 || "Merci de saisir le nombre minimun de caratère : 10",
+      minCharTel: (v) => !(v.length != 10) || "Merci de saisir le nombre minimun de caratère : 10",
       validMail: (v) => /.+@.+\..+/.test(v) || "Merci de saisir un mail valide",
       minChar: (v) => v.length >= 3 || "Merci de saisir plus de 2 caratères",
       number: (v) => /[0-9]/.test(v) || "Merci de saisir que des chiffres",

@@ -49,3 +49,9 @@ Diminuer la Perte d'argent
 ![use case vente en ligne](./asset/usecaseventeBonkdoenligne.png)
 **Diagrame sequence system Vente en ligne**
 ![use case vente en ligne](./asset/diagram-sequenceVenteEnLigne.png)
+
+Wireframe Modèle Bon Cadeau :
+https://cfg.my.canva.site/contact
+
+Wireframe Bon Cadeau :
+https://www.canva.com/design/DAFJw_kX14A/WeJKPYF9_ndoQj4yfZdnnQ/view?utm_content=DAFJw_kX14A&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
