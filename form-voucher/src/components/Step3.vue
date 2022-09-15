@@ -121,6 +121,8 @@ export default {
           dataForm.beneficiary = this.beneficiary;
         }
 
+        dataForm.beneficiary.isForHim = this.checkbox;
+
         this.$emit("dataForm", dataForm);
       }
     },
