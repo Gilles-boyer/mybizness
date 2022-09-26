@@ -10,4 +10,13 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected function getClassWithNamespace(string $class_name)
+    {
+        $object =  __NAMESPACE__ . '\\' . $class_name;
+
+        return $object;
+    }
 }
+
+
