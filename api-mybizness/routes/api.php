@@ -2,8 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\ScriptController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\ClassNameController;
@@ -60,3 +62,8 @@ Route::get("/processing/script/{id}/{any}", [ProcessingController::class, 'index
 
 //voucher
 Route::get("/voucher/get/{id}", [VoucherController::class, 'show']);
+
+Route::get('/web/voucher/{id}',[AppController::class, 'voucher']);
+Route::get('/pdf/voucher',[AppController::class, 'pdf']);
+
+Route::get('/qrcode', [QrCodeController::class, 'index']);
