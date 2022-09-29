@@ -18,8 +18,7 @@ class Action extends Controller
     {
         $method = Method::find($method_id);
 
-        if(isset(self::$objects[$method->class->class_patch]))
-        {
+        if (isset(self::$objects[$method->class->class_patch])) {
             return self::$objects[$method->class->class_patch];
         }
 
@@ -27,16 +26,24 @@ class Action extends Controller
         return self::$action->setObject($method->class->class_patch);
     }
 
+    /**
+     * define $action
+     */
     public static function setAction()
     {
-        if(self::$action == null){
+        if (self::$action == null) {
             self::$action = new Action();
         }
     }
 
-    public function setObject($className)
+    /**
+     * create new object
+     * @param string $className
+     * @return object
+     */
+    public function setObject(string $className)
     {
-        $object = __NAMESPACE__."\\".$className;
+        $object = __NAMESPACE__ . "\\" . $className;
         self::$objects[$className] = new $object();
         return self::$objects[$className];
     }

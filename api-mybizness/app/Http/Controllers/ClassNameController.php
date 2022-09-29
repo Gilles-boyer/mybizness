@@ -79,7 +79,7 @@ class ClassNameController extends Controller
      * @param  \App\Http\Requests\StoreClassNameRequest $request
      * @return \App\Http\Model\ClassName
      */
-    public function configureClassNameForSave(ClassName $class, StoreClassNameRequest $request):object
+    public function configureClassNameForSave(ClassName $class, StoreClassNameRequest $request): object
     {
         $class->name        = ucfirst($request->name);
         $class->description = ucfirst($request->description);

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>CFG Voucher</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <style>
@@ -46,10 +46,6 @@
             width: 100%;
         }
 
-        .bg-primary {
-            background-color: #04153b
-        }
-
         .text-primary {
             color: #04153b
         }
@@ -79,6 +75,17 @@
             color: #FFFFFF;
             width: 380px
         }
+
+        @font-face {
+            font-family: 'DancingScript';
+            src: url(/home/gilles/Application/mybizness/api-mybizness/storage/fonts/DancingScript-Regular.ttf) format("truetype");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .page-break {
+            page-break-after: always;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
@@ -87,32 +94,38 @@
 
 <body>
     <div class="container-fluid">
+        <div class="card w100 br-20" style="height:380px; background-color:{{ $voucher->voucher_color }}">
 
-        <div class="card bg-primary w100 br-20" style="height:380px">
-
-            <img src="https://lh3.googleusercontent.com/Kw1ECouosamsscGTfG-BjnXJTg1wklDYUaDozZ5x_DQb4NTQ2xntYd6ERgA5pHEsEwRzNVBv8X8eeIx6=s0"
-                class="rounded-start mt-3 img-theme" alt="...">
+            <img src="{{ $voucher->theme->theme_img }}" class="rounded-start mt-3 img-theme" alt="...">
 
             <div class="col-8">
-                <div class="card-body" style="position: absolute;">
-                    <h5 class="card-title text-white">Bon Cadeau N° af169dd9-d31b-4910-bf46-e7cb7ecc169e</h5>
-                    <p class="card-text text-white">Félicitation Xxxxxxxx,</p>
-                    <p class="card-text text-white">Nous avons le plaisir de vous acceuillir pour :</p>
 
-                    <div class="card bg-second br-15  text-primary " style="height:120px; width:240px;">
-                        <ul class="list-group text-center pt-2" style="font-size: 13px;">
-                            <li>An item</li>
-                            <li>A second item</li>
-                            <li>A third item</li>
-                            <li>A fourth item</li>
-                            <li>And a fifth one</li>
+                <div class="card-body" style="position: absolute;">
+
+                    <h5 class="card-title text-white">Bon Cadeau N° {{ $voucher->voucher_num }}</h5>
+                    <p class="card-text text-white" style="font-family: '{{ $voucher->voucher_font }}'">Félicitation
+                        {{ ucfirst($voucher->order->beneficiary->user_first_name) . ' ' }}
+                        {{ strtoupper($voucher->order->beneficiary->user_last_name) }},
+                    </p>
+                    <p class="card-text text-white" style="font-family: '{{ $voucher->voucher_font }}'">Nous avons le
+                        plaisir de vous acceuillir pour :</p>
+
+                    <div class="card bg-second br-15 text-primary " style="height:120px; width:240px;">
+                        <ul class="list-group text-center pt-2"
+                            style="font-size: 13px;font-family:'{{ $voucher->voucher_font }}'">
+                            @foreach ($voucher->order->products as $product)
+                                <li>{{ $product->product_name }}</li>
+                            @endforeach
                         </ul>
                     </div>
 
-                    <p class="card-text text-white mt-4 mb-2">Votre bon est valide jusqu'au :</p>
+                    <p class="card-text text-white mt-4 mb-2" style="font-family: '{{ $voucher->voucher_font }}'">Votre
+                        bon est valide jusqu'au :</p>
 
                     <div class="card bg-second br-15 px-1 py-1 text-center" style="height:28px; width:240px ">
-                        <p class="card-text text-primary mt-1" style="font-size: 14px;">12-12-2022</p>
+                        <p class="card-text text-primary mt-1"
+                            style="font-size:14px;font-family:'{{ $voucher->voucher_font }}'">
+                            {{ date_format(date_create($voucher->voucher_validity), 'd-m-Y') }}</p>
                     </div>
 
                     <p class="card-text mt-4 mb-2">
@@ -124,24 +137,29 @@
                 </div>
             </div>
             <div class="col-4">
-                <img style="width:150px;margin-top:15px; margin-left:78px" src="{{ public_path('assets/logoCfg.png') }}"
-                    alt="logo cfg" />
+                <img style="width:150px;margin-top:15px; margin-left:78px"
+                    src="{{ public_path('assets/logoCfg.png') }}" alt="logo cfg" />
                 <div class="card bg-second br-15" style="height:83px; width:83px;margin-left:130px">
                     <img style="margin-left: 6px; margin-top:6px" src={{ $qrcode }} />
                 </div>
                 <div class="card bg-second br-15 mt-3 pt-2" style="height:94px; width: 200px; margin-left:10px">
-                    <p class="card-text text-primary" style="margin-left:10px; margin-right:10px; font-size:13px">
-                        Pour profiter de votre cadeau, Réservez vite au 0692 725 584, Réservez vite au 0692 725 584
+                    <p class="card-text text-primary font"
+                        style="margin-left:10px; margin-right:10px; font-size:13px; font-family: '{{ $voucher->voucher_font }}'">
+                        {{ $voucher->voucher_message }}
                     </p>
                 </div>
 
                 <p class="card-text" style="margin-top:25px">
-                    <small class="text-white" style="margin-left:155px">
+                    <small class="text-white" style="margin-left:155px; font-size:11px">
                         www.cfg.re
                     </small>
                 </p>
             </div>
         </div>
+
+        <div class="page-break"></div>
+
+        <img src="{{ public_path('assets/bonkdo.png') }}" class="card bg-primary w100 br-20" style="height:380px">
     </div>
 </body>
 

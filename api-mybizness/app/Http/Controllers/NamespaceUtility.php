@@ -7,7 +7,11 @@ use HaydenPierce\ClassFinder\ClassFinder;
 
 class NamespaceUtility
 {
-    public static function listClassByNamespaceObservable($namespace)
+    /**
+     * search list class in NameSpace
+     * @return array
+     */
+    public static function listClassByNamespaceObservable()
     {
         $listClass = ClassFinder::getClassesInNamespace(__NAMESPACE__);
         $tab = [];

@@ -7,7 +7,12 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public static function calculateTotal($tab)
+    /**
+     * Calculate total product buy
+     * @param array $tab
+     * @return int $total
+     */
+    public static function calculateTotal(array $tab)
     {
         $total = 0;
         foreach ($tab as $id)

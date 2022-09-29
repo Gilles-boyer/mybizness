@@ -9,10 +9,7 @@ use App\Http\Requests\UpdateApplicationRequest;
 
 class ApplicationController extends Controller
 {
-    public function index()
-    {
-        return "hello";
-    }
+
     public static function verifyTokenValidity(string $token, string $host)
     {
         $token = trim($token);

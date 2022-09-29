@@ -10,7 +10,7 @@
   >
     <v-list-item class="px-0">
       <v-list-item-avatar class="mx-auto" rounded>
-        <v-img src="../../../public/logo100x100.png"></v-img>
+        <v-img src="/logo100x100.png"></v-img>
       </v-list-item-avatar>
     </v-list-item>
 

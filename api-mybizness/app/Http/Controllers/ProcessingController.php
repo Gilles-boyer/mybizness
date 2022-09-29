@@ -273,8 +273,8 @@ class ProcessingController extends Controller
 
     public function configValidationVoucher($params)
     {
-        $params["params"]["personalization"]=(array)json_decode($params["params"]["personalization"]);
-        $params["params"]["shipping_method"]=(array)json_decode($params["params"]["shipping_method"]);
+        $params["params"]["personalization"] = (array)json_decode($params["params"]["personalization"]);
+        $params["params"]["shipping_method"] = (array)json_decode($params["params"]["shipping_method"]);
 
         return [
             "theme_id" => $params["params"]['personalization']['theme'],
@@ -285,10 +285,11 @@ class ProcessingController extends Controller
         ];
     }
 
-    public function addNewVoucher($params) {
+    public function addNewVoucher($params)
+    {
         $voucher = new Voucher();
         $voucher->voucher_num = (string)Uuid::uuid4();
-        $voucher->voucher_validity =  date("Y-m-d", strtotime(now(). ' + 100 days'));
+        $voucher->voucher_validity =  date("Y-m-d", strtotime(now() . ' + 100 days'));
         $voucher->voucher_message = $params["voucher"]["message"];
         $voucher->voucher_color = $params["voucher"]["backgroundColor"];
         $voucher->voucher_font = $params["voucher"]["fontFamily"];

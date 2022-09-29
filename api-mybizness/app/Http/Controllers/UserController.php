@@ -160,17 +160,16 @@ class UserController extends Controller
         return User::where("user_email", $email)->first();
     }
 
-   protected static function validateUserData(array $object)
+    protected static function validateUserData(array $object)
     {
-        foreach ($object as $key=>$value)
-        {
-            if($key == "firstName"){
+        foreach ($object as $key => $value) {
+            if ($key == "firstName") {
                 $object['first_name'] = $value;
             }
-            if($key == "lastName") {
+            if ($key == "lastName") {
                 $object['last_name'] = $value;
             }
-            if($key == "tel") {
+            if ($key == "tel") {
                 $object["phone"] = $value;
             }
         }
@@ -191,12 +190,11 @@ class UserController extends Controller
                 "echec validation"
             );
         }
-        $validate =(array)$validate->validated();
+        $validate = (array)$validate->validated();
 
         $user = User::where("user_email", $validate['email'])->first();
 
-        if(isset($user->id))
-        {
+        if (isset($user->id)) {
             return $user;
         }
 

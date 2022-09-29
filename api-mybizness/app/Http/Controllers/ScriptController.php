@@ -26,7 +26,6 @@ class ScriptController extends Controller
      */
     public function processingScriptVoucherOnline()
     {
-
     }
 
     /**

@@ -94,7 +94,7 @@ class ScriptMehodController extends Controller
         $scriptMehod = ScriptMehod::find($data->id);
         $scriptMehod->order = $order;
         $scriptMehod->fk_script_mehods_id = null;
-        if(count($data->list_method) > 0) {
+        if (count($data->list_method) > 0) {
             foreach ($data->list_method as $key => $value) {
                 $this->updateOrCreateSubScriptMethods($value, $key);
             }
@@ -146,7 +146,8 @@ class ScriptMehodController extends Controller
         }
     }
 
-    public function subStore($data, $order) {
+    public function subStore($data, $order)
+    {
         $scriptMehod = new ScriptMehod();
 
         $scriptMehod->fk_method_id = $data->method_id;
@@ -156,7 +157,8 @@ class ScriptMehodController extends Controller
         $scriptMehod->save();
     }
 
-    public function subUpdate($data, $order) {
+    public function subUpdate($data, $order)
+    {
         $scriptMehod = ScriptMehod::find($data->id);
 
         $scriptMehod->fk_script_mehods_id = $data->script_method_id;

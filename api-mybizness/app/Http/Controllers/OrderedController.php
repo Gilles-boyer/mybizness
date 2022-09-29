@@ -25,8 +25,8 @@ class OrderedController extends Controller
         $fk_client_id,
         $fk_beneficiary_id,
         $fk_paiement_id,
-        $fk_app_id)
-    {
+        $fk_app_id
+    ) {
         $order = new Order();
         $order->order_total = $order_total;
         $order->fk_client_id = $fk_client_id;

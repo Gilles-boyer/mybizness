@@ -50,20 +50,14 @@ Route::post("/script/create", [ScriptController::class, 'store']);
 Route::get("/script/get/all", [ScriptController::class, 'index']);
 Route::delete("script/delete", [ScriptController::class, 'destroy']);
 
-
 //MethodScript
 Route::post("/method/script/create", [ScriptMehodController::class, 'processingScriptMethod']);
 Route::delete("/method/script/delete/{id}", [ScriptMehodController::class, 'destroy']);
 Route::get("/method/script/get/{id}", [ScriptMehodController::class, 'show']);
 Route::post("/method/script/update/{id}", [ScriptMehodController::class, 'processingSubScriptMethod']);
 
-//
+//order voucher
 Route::get("/processing/script/{id}/{any}", [ProcessingController::class, 'index'])->where('any', '.*');
 
 //voucher
 Route::get("/voucher/get/{id}", [VoucherController::class, 'show']);
-
-Route::get('/web/voucher/{id}',[AppController::class, 'voucher']);
-Route::get('/pdf/voucher',[AppController::class, 'pdf']);
-
-Route::get('/qrcode', [QrCodeController::class, 'index']);
