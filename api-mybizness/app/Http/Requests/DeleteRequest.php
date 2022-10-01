@@ -16,7 +16,7 @@ class DeleteRequest extends BaseRequest
     public function rules()
     {
         return [
-            "id" => "required|exists:App\Models\\".$this->model.",id"
+            "id" => "required|exists:App\Models\\$this->model,id"
         ];
     }
 }

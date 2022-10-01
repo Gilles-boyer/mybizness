@@ -2,103 +2,70 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\ProductOrder;
-use App\Http\Controllers\RequestAdapter;
-use App\Http\Controllers\UserController;
-use App\Http\Requests\UserClientRequest;
-use App\Http\Requests\StoreOrderedRequest;
 
-
+/**
+ * Observable : true
+ * Name : Order
+ * Description : list function for order controller
+ */
 class OrderedController extends Controller
 {
-    private UserController $user;
-
-    public function __construct()
+    /**
+     * Observable : true
+     * Name : create order online
+     * Description : create a new order online
+     */
+    public function createOrderOnline($request, $results)
     {
-        $this->user = new UserController();
+        $results['order'] = $this->storeOrder($this->adapterOrderOnline($results));
+        $this->createProductOrders($results);
+        return $results;
     }
 
-    public static function createOrder(
-        $order_total,
-        $fk_client_id,
-        $fk_beneficiary_id,
-        $fk_paiement_id,
-        $fk_app_id
-    ) {
-        $order = new Order();
-        $order->order_total = $order_total;
-        $order->fk_client_id = $fk_client_id;
-        $order->fk_beneficiary_id = $fk_beneficiary_id;
-        $order->fk_paiement_id = $fk_paiement_id;
-        $order->fk_app_id = $fk_app_id;
-
-        $order->save();
-
-        return $order;
-    }
-
-    public static function createProductOrder($tab, $order_id)
+    public function createProductOrders($results)
     {
-        foreach ($tab as $id) {
-            $productOrder = new ProductOrder();
-            $productOrder->fk_product_id = $id;
-            $productOrder->fk_order_id = $order_id;;
-            $productOrder->save();
+        foreach($results['gifts'] as $gift)
+        {
+            $this->storeProductOrder(
+                $this->adapterProductOrder($gift->id, $results['order']->id)
+            );
         }
     }
 
-    public function processingOrdered(StoreOrderedRequest $request)
+    public function adapterOrderOnline($results)
     {
-        try {
-            $requestClient = $this->processingAdapterClient($request);
-            $client = $this->processingClient($requestClient);
-        } catch (Exception $e) {
-            return  Utility::responseError($e->getMessage(), "Traitement client impossible");
-        }
-
-        try {
-            $requestBeneficiary = $this->processingAdapterBeneficiary($request);
-            $beneficiary = $this->processingBeneficiary($requestBeneficiary);
-        } catch (Exception $e) {
-            return  Utility::responseError($e->getMessage(), "Traitement bénéficiaire impossible");
-        }
-
         return [
-            "client" => $client,
-            "beneficiary" => $beneficiary
+            "order_total"       => $results['total'],
+            "fk_client_id"      => $results['customer']->id,
+            "fk_beneficiary_id" => $results['beneficiary']->id,
+            "fk_paiement_id"    => $results['paiement']->id,
+            "fk_app_id"         => $results['app']->id
         ];
     }
 
-    private function processingAdapterClient(StoreOrderedRequest $request)
+    public function adapterProductOrder($productId, $orderId)
     {
-        return  RequestAdapter::userRequest(
-            $request->client_fisrtname,
-            $request->client_lastname,
-            $request->client_phone,
-            $request->client_email
-        );
+        return [
+            "fk_product_id" => $productId,
+            "fk_order_id"   => $orderId
+        ];
     }
 
-    private function processingClient(UserClientRequest $request)
+    public function storeOrder($adapter)
     {
-        return  $this->user->store($request, "client", false);
+        return Order::create($adapter);
     }
 
-    private function processingAdapterBeneficiary(StoreOrderedRequest $request)
+    public function storeProductOrder($adapter)
     {
-        $objectBeneficiary = json_decode($request->beneficiary);
-        return  RequestAdapter::userRequest(
-            $objectBeneficiary->firstName,
-            $objectBeneficiary->lastName,
-            $objectBeneficiary->tel,
-            $objectBeneficiary->email,
-        );
+        ProductOrder::create($adapter);
     }
 
-    private function processingBeneficiary(UserClientRequest $request)
+    public function index()
     {
-        return $this->user->store($request, "beneficiary", false);
+        return OrderResource::collection(Order::all());
     }
 }

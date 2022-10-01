@@ -17,9 +17,6 @@ class StoreOrderedRequest extends FormRequest
      */
     public function authorize()
     {
-        if(isset($this->token)){
-            return ApplicationController::verifyTokenValidity($this->token,$this->getHttpHost());
-        }
         return false;
     }
 

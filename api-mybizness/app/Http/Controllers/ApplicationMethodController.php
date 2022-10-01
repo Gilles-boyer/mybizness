@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Method;
 use App\Models\Application;
 use App\Models\ApplicationMethod;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,7 +16,7 @@ class ApplicationMethodController extends Controller
      * @param App\Models\Method $method
      * @return void
      */
-    public static function processingRelationMethodApp(Method $method): void
+    public static function processingRelationMethodApp($method): void
     {
         if ($method) {
             $appMethods = ApplicationMethod::where("fk_method_id", $method->id)->get();

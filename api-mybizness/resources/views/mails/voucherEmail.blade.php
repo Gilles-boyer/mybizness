@@ -1025,7 +1025,7 @@ END CONFIG STYLES
                                                                                         esd-links-underline="none"
                                                                                         align="center">
                                                                                         <h2>Félicitation
-                                                                                            {{ ucfirst($voucher->order->beneficiary->user_first_name)." " }}
+                                                                                            {{ ucfirst($voucher->order->beneficiary->user_first_name )." " }}
                                                                                             {{ strtoupper($voucher->order->beneficiary->user_last_name) }}!
                                                                                         </h2>
                                                                                     </td>

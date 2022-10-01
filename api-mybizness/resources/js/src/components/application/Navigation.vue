@@ -89,9 +89,9 @@ export default {
       version: data.version,
       dateProd: data.date,
       items: [
-        { title: "Bon Cadeau", icon: "mdi-gift", to: "/gift" },
+        { title: "Bon Cadeau", icon: "mdi-gift", to: "/order" },
         { title: "Circuit", icon: "mdi-racing-helmet", to: "/circuit" },
-        { title: "Script", icon: "mdi-folder", to: "/" },
+        { title: "Script", icon: "mdi-folder", to: "/script" },
       ],
       mini: true,
     };

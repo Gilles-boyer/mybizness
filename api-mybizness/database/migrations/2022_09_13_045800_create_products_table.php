@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('product_price',20);
             $table->boolean('product_online');
             $table->unsignedBigInteger('fk_category_id');
-            $table->foreign('fk_category_id')->references('id')->on('categories');
+            $table->foreign('fk_category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

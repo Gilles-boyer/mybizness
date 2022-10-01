@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\MethodRessource;
 use App\Http\Controllers\MethodController;
 use Illuminate\Http\Resources\Json\JsonResource;
 

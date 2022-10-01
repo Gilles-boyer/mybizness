@@ -21,7 +21,9 @@ class ProductResource extends JsonResource
             "img" => $this->product_img,
             "price" => $this->product_price,
             "online" => $this->product_online,
-            "category" => new CategoryResource($this->category)
+            "category" => new CategoryResource($this->category),
+            "ProductOrder_id" => $this->pivot->id,
+            "used" => $this->pivot->used,
         ];
     }
 }

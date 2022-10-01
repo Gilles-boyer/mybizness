@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use PDF;
-use App\Models\Voucher;
-use Illuminate\Http\Request;
+use App\Http\Controllers\QrCodeController;
 
 class PdfController extends Controller
 {
@@ -13,7 +12,7 @@ class PdfController extends Controller
      * @param App\Models\Voucher
      * @return PDF
      */
-    public static function generateVoucherPdf(Voucher $voucher)
+    public static function generateVoucherPdf($voucher)
     {
         $qrcode = QrCodeController::createQrCodeBase64(70, $voucher->voucher_num);
         return PDF::loadView('voucher', compact('qrcode', 'voucher'));

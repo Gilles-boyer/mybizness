@@ -14,13 +14,22 @@ class OrderResource extends JsonResource
      */
     public function toArray($request)
     {
+        if($this->fk_app_id){
+            $created_by =  new OrderAppResource($this->app);
+        }else{
+            $created_by = new OrderUserResource($this->staff);
+        }
+
         return [
             "id" => $this->id,
             "date_order" => $this->order_at,
-            "customer"  => New UserResource($this->customer),
-            "beneficiary" => New UserResource($this->beneficiary),
-            "products" => ProductResource::collection($this->products),
-
+            "customer"  => New OrderClientResource($this->customer),
+            "beneficiary" => New OrderClientResource($this->beneficiary),
+            "products" => OrderProductResource::collection($this->products),
+            "created_by" => $created_by,
+            "total" =>  $this->order_total,
+            "payment" => new OrderPaymentResource($this->payment),
+            "voucher" => new OrderVoucherResource($this->voucher)
         ];
     }
 }

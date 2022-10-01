@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Jobs\ConfirmationOrderSendEmail;
 use App\Jobs\VoucherSendEmail;
 use App\Models\Order;
-use App\Models\Voucher;
-use App\Mail\VoucherMail;
-use Illuminate\Http\Request;
-use App\Mail\ConfirmationOrderMail;
-use Illuminate\Support\Facades\Mail;
 
+/**
+ * Observable : true
+ * Name : Email
+ * Description : list method for email controller
+ */
 class EmailController extends Controller
 {
     /**
@@ -30,9 +30,42 @@ class EmailController extends Controller
      * @param string $email
      * @return Illuminate\Support\Facades\Mail
      */
-    public function sendMailVoucher(Voucher $voucher, string $email)
+    public function sendMailVoucher($voucher, string $email)
     {
         $emailJobs = new VoucherSendEmail($voucher, $email);
         $this->dispatch($emailJobs);
+    }
+
+    /**
+     * Observable : true
+     * Name :voucher customer
+     * Description : send voucher bon kdo for customer
+     */
+    public function loadVoucheCustomer($request, $results)
+    {
+        $this->sendMailVoucher($results['voucher'], $results['customer']->user_email);
+        return  Utility::responseValid("commande traité");
+    }
+
+    /**
+     * Observable : true
+     * Name :voucher beneficiary
+     * Description : send confirmation mail order
+     */
+    public function loadVoucherBeneficiary($request, $results)
+    {
+        $this->sendMailVoucher($results['voucher'], $results['beneficiary']->user_email);
+        return  Utility::responseValid("commande traité");
+    }
+
+    /**
+     * Observable : true
+     * Name : mail order
+     * Description : send confirmation mail order
+     */
+    public function loadConfirmationOrder($request, $results)
+    {
+        $this->sendConfirmationOrder($results['order']);
+        return $results;
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
-use App\Models\Method;
 use App\Models\RoleMethod;
 use App\Http\Requests\RoleMethodRequest;
 use Illuminate\Database\Eloquent\Collection;
@@ -42,7 +41,7 @@ class RoleMethodController extends Controller
      * @param App\Models\Method $method
      * @return void
      */
-    public static function processingRelationMethodRole(Method $method): void
+    public static function processingRelationMethodRole($method): void
     {
         if ($method) {
             $roleMethods = RoleMethod::where("fk_method_id", $method->id)->get();

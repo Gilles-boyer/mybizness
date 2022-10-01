@@ -18,6 +18,7 @@ class CreateApplicationsTable extends Migration
             $table->string('app_name')->unique();
             $table->string('app_host')->unique();
             $table->string('app_token')->unique();
+            $table->boolean('app_activate')->default(false);
             $table->timestamps();
         });
     }

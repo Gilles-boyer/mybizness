@@ -35,7 +35,7 @@ class VoucherMail extends Mailable
         $pdf = PdfController::generateVoucherPdf($voucher);
 
         return $this->from('noreply@cfg.re')
-            ->view('mails.voucherEmail')
+            ->view('mails.voucherEmail', compact("voucher"))
             ->subject('Votre bon cadeau cfg')
             ->attachData($pdf->output(), 'bonKdoCfg.pdf');
     }

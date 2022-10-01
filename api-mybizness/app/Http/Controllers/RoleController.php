@@ -6,11 +6,6 @@ use App\Http\Resources\RoleResource;
 use App\Models\Role;
 
 
-/**
- * Observable : true
- * Name : Role
- * Description : listing of the methods for class Role
- **/
 class RoleController extends Controller
 {
     /**
@@ -29,7 +24,7 @@ class RoleController extends Controller
 
     /**
      * Observable : true
-     * Name : List role
+     * Name : List Role
      * Description : Display a listing of the resource Roles
      * @return \Illuminate\Http\Response
      */

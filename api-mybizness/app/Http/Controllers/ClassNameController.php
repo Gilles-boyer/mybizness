@@ -3,57 +3,93 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use ReflectionClass;
 use App\Models\ClassName;
 use App\Http\Resources\ClassNameResource;
-use App\Http\Controllers\NamespaceUtility;
-use App\Http\Requests\StoreClassNameRequest;
-use App\Http\Requests\UpdateClassNameRequest;
-use App\Http\Utilities\CommentUtility;
+use HaydenPierce\ClassFinder\ClassFinder;
 
 class ClassNameController extends Controller
 {
-    private static $object;
-
-
-    public function __construct()
-    {
-        self::$object = $this;
-    }
-
     /**
-     * @observable
-     *
      * Display a listing of the resource ClassName.
-     *
      * @return \Illuminate\Http\Response
      */
-    public function index(): object
+    public function index()
     {
-        $listClass = NamespaceUtility::listClassByNamespaceObservable(__NAMESPACE__);
-        foreach ($listClass as $class) {
-            $comment = CommentUtility::commentToArray(
-                CommentUtility::classComment($this->getClassWithNamespace($class))
-            );
-            $arrayComment = StoreClassNameRequest::create("", 'GET', [
-                "name"        => $comment['Name'],
-                "description" => $comment['Description'],
-                "class_patch" => $class
-            ]);
-            if (!$this->classExist($class)) {
-                $Class = new ClassName();
-            } else {
-                $Class = $this->show($class);
+        try {
+            foreach ($this->loadClassInNameSpace() as $class) {
+                $comment = $this->loadObservableClass($class);
+                if ($comment) {
+                    $comments = $this->adapterClassName($comment['Name'], $comment['Description'], $class);
+                    $this->updateListClass($class, $comments);
+                }
             }
-            $this->configureClassNameForSave($Class, $arrayComment);
+        } catch (Exception $e) {
+            return Utility::responseError($e->getMessage());
         }
-
         return Utility::responseValid(
             "liste des class",
             ClassNameResource::collection(
                 ClassName::all()
             )
         );
+    }
+
+    /**
+     * get all classes in namespace
+     * @return ClassFinder
+     */
+    public function loadClassInNameSpace()
+    {
+        return ClassFinder::getClassesInNamespace(__NAMESPACE__);
+    }
+
+    /**
+     * get Observable class
+     * @param string $class
+     * @return comment
+     */
+    public function loadObservableClass(string $class)
+    {
+        $comment = CommentController::getObservableClasses($class);
+        if (!$comment || $comment['Observable'] == "false") {
+            if ($this->classExist($class)) {
+                $this->show($class)->forceDelete();
+            }
+            return null;
+        }
+        return $comment;
+    }
+
+    /**
+     * update list Class
+     * @param string $class
+     * @param object $comments
+     * @return void;
+     */
+    public function updateListClass(string $class, $comments)
+    {
+        if (!$this->classExist($class)) {
+            $Class = new ClassName();
+        } else {
+            $Class = $this->show($class);
+        }
+        $this->configureClassNameForSave($Class, $comments);
+    }
+
+    /**
+     * adapt data for create new  StoreClassNameRequest
+     * @param string $name
+     * @param string $description
+     * @param string $class
+     * @return StoreClassNameRequesté
+     */
+    public function adapterClassName(string $name, string $description, string $class)
+    {
+        return [
+            "name"        => ucfirst($name),
+            "description" => ucfirst($description),
+            "class_patch" => $class
+        ];
     }
 
     /**
@@ -70,23 +106,19 @@ class ClassNameController extends Controller
         return false;
     }
 
-
-
     /**
      * configure object class and save
      *
-     * @param  \App\Http\Model\ClassName  $class
-     * @param  \App\Http\Requests\StoreClassNameRequest $request
+     * @param   $class
+     * @param   $comment
      * @return \App\Http\Model\ClassName
      */
-    public function configureClassNameForSave(ClassName $class, StoreClassNameRequest $request): object
+    public function configureClassNameForSave($class, $comment)
     {
-        $class->name        = ucfirst($request->name);
-        $class->description = ucfirst($request->description);
-        $class->class_patch = $request->class_patch;
+        $class->name        = $comment['name'];
+        $class->description = $comment['description'];
+        $class->class_patch = $comment['class_patch'];
         $class->save();
-
-        return $class;
     }
 
     /**
@@ -98,20 +130,5 @@ class ClassNameController extends Controller
     public function show(string $class_patch): ?object
     {
         return  ClassName::where("class_patch", $class_patch)->first();
-    }
-
-
-
-    /**
-     * configure object class and save
-     *
-     * @param  string   $class_patch
-     * @return void
-     */
-    public static function delete(string $class_patch): void
-    {
-        $class = str_replace(__NAMESPACE__ . "\\", "", $class_patch);
-        $className = self::$object->show($class);
-        $className->forceDelete();
     }
 }

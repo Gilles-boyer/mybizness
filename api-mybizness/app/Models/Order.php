@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Voucher;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
@@ -32,7 +33,26 @@ class Order extends Model
     }
     public function products()
     {
-        return $this->belongsToMany(Product::class,'product_orders',"fk_order_id", "fk_product_id", "id", "id");//->withPivot("order", "id","fk_script_mehods_id");
+        return $this->belongsToMany(Product::class,'product_orders',"fk_order_id", "fk_product_id", "id", "id")->withPivot("used", "id");
+    }
+
+    public function app()
+    {
+        return $this->hasOne(Application::class, 'id', "fk_app_id");
+    }
+
+    public function staff()
+    {
+        return $this->hasOne(User::class, 'id', "fk_staff_id");
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(PaiementMethod::class, 'id', "fk_paiement_id");
+    }
+    public function voucher()
+    {
+        return $this->hasOne(Voucher::class, "fk_order_id", "id");
     }
 
 }

@@ -49,7 +49,7 @@
                       color="error"
                       @click="deleteScriptMethod(child.id, index)"
                     >
-                      <v-icon>mdi-delete</v-icon>
+                      <v-icon color="#04153B80">mdi-delete</v-icon>
                     </v-btn>
                   </v-col>
                 </v-row>

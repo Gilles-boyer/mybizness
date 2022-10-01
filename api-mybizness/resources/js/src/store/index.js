@@ -6,6 +6,7 @@ import modalAddScript from './modalAddScript';
 import scriptData from './script';
 import nestedStore from './nested-store';
 import overlay from './overlay';
+import order from './order';
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     modalAddScript: modalAddScript,
     scriptData: scriptData,
     nestedStore: nestedStore,
-    overlay:overlay
+    overlay:overlay,
+    order:order
   }
 })

@@ -2,17 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AppController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\ScriptController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\ClassNameController;
-use App\Http\Controllers\ProcessingController;
 use App\Http\Controllers\RoleMethodController;
 use App\Http\Controllers\ScriptMehodController;
 use App\Http\Controllers\ApplicationMethodController;
+use App\Http\Controllers\OrderedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,35 +26,36 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/order/online",     [ScriptController::class, 'buyVoucher']);
-Route::get("/order/store",      [ScriptController::class, 'buyVoucher']);
-Route::post("/user/{type}/add", [UserController::class, 'store']);
+// Route::get("/order/online",     [ScriptController::class, 'buyVoucher']);
+// Route::get("/order/store",      [ScriptController::class, 'buyVoucher']);
+// Route::post("/user/{type}/add", [UserController::class, 'store']);
 
 //class
 Route::get("/class/get/all", [ClassNameController::class, 'index']);
-
 //Role
 Route::get("/role/get/all", [RoleController::class, 'index']);
-
 //RoleMethod
 Route::put("/rolemethod/update/relation", [RoleMethodController::class, 'update']);
-
 //AppMethod
 Route::put("/appmethod/update/relation", [ApplicationMethodController::class, 'update']);
-
 //Script
 Route::post("/script/create", [ScriptController::class, 'store']);
 Route::get("/script/get/all", [ScriptController::class, 'index']);
-Route::delete("script/delete", [ScriptController::class, 'destroy']);
-
+Route::delete("/script/delete", [ScriptController::class, 'destroy']);
 //MethodScript
 Route::post("/method/script/create", [ScriptMehodController::class, 'processingScriptMethod']);
 Route::delete("/method/script/delete/{id}", [ScriptMehodController::class, 'destroy']);
 Route::get("/method/script/get/{id}", [ScriptMehodController::class, 'show']);
 Route::post("/method/script/update/{id}", [ScriptMehodController::class, 'processingSubScriptMethod']);
-
 //order voucher
-Route::get("/processing/script/{id}/{any}", [ProcessingController::class, 'index'])->where('any', '.*');
-
+Route::get("/load/script", [ScriptController::class, 'loadScript'])->where('any', '.*');
 //voucher
-Route::get("/voucher/get/{id}", [VoucherController::class, 'show']);
+Route::get("/voucher/get/{uuid}", [VoucherController::class, 'getVoucherByUuid']);
+Route::post("/voucher/create",  [VoucherController::class, 'store']);
+Route::put("/voucher/{id}/update/validity/{day}",  [VoucherController::class, 'updateValidity']);
+Route::Delete("/voucher/delete/{id}", [VoucherController::class, 'destroy']);
+Route::get("/voucher/display/pdf/{uuid}", [VoucherController::class, 'displayVoucher']);
+Route::get("/voucher/download/pdf/{uuid}", [VoucherController::class, 'downloadVoucher']);
+Route::get("/voucher/{uuid}/send/mail/{email}", [VoucherController::class, 'sendVoucherByMail']);
+//order
+Route::get("/orders/get", [OrderedController::class, "index"]);

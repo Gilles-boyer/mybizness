@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import Script from '../views/Script.vue';
+import Order from '../views/Order.vue';
 
 Vue.use(VueRouter)
 
@@ -9,6 +11,16 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/script',
+    name: 'Script',
+    component: Script
+  },
+  {
+    path: '/order',
+    name: 'Order',
+    component: Order
   },
 ]
 

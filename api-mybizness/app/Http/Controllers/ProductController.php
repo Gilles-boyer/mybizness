@@ -2,24 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
+/**
+ * Observable : true
+ * Name : Product
+ * Description : list method for productController
+ */
 class ProductController extends Controller
 {
-    /**
-     * Calculate total product buy
-     * @param array $tab
-     * @return int $total
-     */
-    public static function calculateTotal(array $tab)
+    public function validatedIdProduct($validator)
     {
-        $total = 0;
-        foreach ($tab as $id)
-        {
-            $product = Product::find($id);
-            $total += $product->product_price;
+        if ($validator->fails()) {
+            throw new Exception($validator->errors());
         }
-        return $total;
+        return $validator->validated();
+    }
+
+    public function show($id)
+    {
+        return Product::find($id);
+    }
+
+    /**
+     * Observable : true
+     * Name : loadProducts
+     * Description : list product in basket
+     */
+    public function loadProducts($request, $results)
+    {
+        $results['gifts'] = [];
+        $results['total'] = 0;
+        foreach (json_decode($request->gifts) as $giftId) {
+            $validate = $this->validatedIdProduct($this->validateId(['id' => $giftId], "Product"));
+            $product = $this->show($validate['id']);
+            $results['total'] += $product->product_price;
+            array_push($results['gifts'], $product);
+        }
+        return $results;
+    }
+
+    /**
+     * Observable : true
+     * Name : validate total
+     * Description : validate total product in basket
+     */
+    public function validateTotal($request, $results)
+    {
+        if (!((int)$request->total == $results['total'])) {
+            throw new Exception("différence de tarif entre produit et monant payé");
+        }
+        return $results;
     }
 }

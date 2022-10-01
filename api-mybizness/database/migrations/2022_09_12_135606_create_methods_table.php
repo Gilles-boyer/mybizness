@@ -19,7 +19,7 @@ class CreateMethodsTable extends Migration
             $table->string('description');
             $table->string('method');
             $table->unsignedBigInteger('fk_class_id');
-            $table->foreign('fk_class_id')->references('id')->on('class_names');
+            $table->foreign('fk_class_id')->references('id')->on('class_names')->onDelete('cascade');
             $table->timestamps();
         });
     }

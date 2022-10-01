@@ -18,6 +18,8 @@ class CreateShippingMethodsTable extends Migration
             $table->string('shipping_name',50);
             $table->string('shipping_description');
             $table->boolean('shipping_online')->default(false);
+            $table->unsignedBigInteger('fk_method_id')->nullable();
+            $table->foreign('fk_method_id')->references('id')->on('methods')->onDelete("cascade");
             $table->timestamps();
         });
     }

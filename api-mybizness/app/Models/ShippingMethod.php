@@ -19,4 +19,9 @@ class ShippingMethod extends Model
         'shipping_description',
         'shipping_online'
     ];
+
+    public function method()
+    {
+        return $this->hasOne(Method::class, 'id', 'fk_method_id');
+    }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Controllers\ApplicationController;
 
 class OrderScriptRequest extends FormRequest
 {
@@ -15,9 +14,6 @@ class OrderScriptRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->token)) {
-            return ApplicationController::verifyTokenValidity($this->token, $this->getHttpHost());
-        }
         return false;
     }
 

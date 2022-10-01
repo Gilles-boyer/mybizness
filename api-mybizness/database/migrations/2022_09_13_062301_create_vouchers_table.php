@@ -21,11 +21,11 @@ class CreateVouchersTable extends Migration
             $table->string('voucher_color',50);
             $table->string('voucher_font',50);
             $table->unsignedBigInteger('fk_order_id');
-            $table->foreign('fk_order_id')->references('id')->on('orders');
+            $table->foreign('fk_order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->unsignedBigInteger('fk_theme_id');
-            $table->foreign('fk_theme_id')->references('id')->on('themes');
+            $table->foreign('fk_theme_id')->references('id')->on('themes')->onDelete('cascade');
             $table->unsignedBigInteger('fk_shipping_id');
-            $table->foreign('fk_shipping_id')->references('id')->on('shipping_methods');
+            $table->foreign('fk_shipping_id')->references('id')->on('shipping_methods')->onDelete('cascade');
             $table->timestamps();
         });
     }

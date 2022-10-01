@@ -12,13 +12,14 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public static array $objects;
 
     /**
      * set link class name with namespace
      * @param string $class_name
      * @return string $object_class
      */
-    protected function getClassWithNamespace(string $class_name): string
+    public function getClassWithNamespace(string $class_name): string
     {
         $object =  __NAMESPACE__ . '\\' . $class_name;
 

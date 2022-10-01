@@ -3,7 +3,7 @@
     <slot></slot>
   </v-card>
 </template>
-<style scoped>
+<style >
 .login {
   background: rgb(9, 66, 121);
   background: linear-gradient(
