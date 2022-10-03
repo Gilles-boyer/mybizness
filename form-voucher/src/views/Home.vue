@@ -19,7 +19,6 @@
 <script>
 // @ is an alias to /src
 import Notice from "@/components/Notice.vue";
-
 export default {
   name: "Home",
   components: {

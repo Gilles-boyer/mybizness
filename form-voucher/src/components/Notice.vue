@@ -1,3 +1,4 @@
+
 <template>
   <v-container
     fill-height
@@ -105,7 +106,6 @@
 import urlBase from "../data/urlBase.json";
 export default {
   name: "Notice",
-
   data: () => ({
     url: urlBase.base,
   }),

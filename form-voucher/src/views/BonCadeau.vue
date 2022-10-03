@@ -69,12 +69,10 @@
 </template>
 
 <script>
-
 import Step1 from "../components/Step1.vue";
 import Step2 from "../components/Step2.vue";
 import Step3 from "../components/Step3.vue";
 import Step4 from "../components/Step4.vue";
-
 export default {
   methods: {
     addListGifts(list) {
@@ -94,10 +92,8 @@ export default {
     confirmationAndPaiement() {
       var form = document.getElementById("f_form91486208");
       var tabIdGift = [];
-
       //select gift id only for api
       this.voucher.giftsList.forEach(element => tabIdGift.push(element.id))
-
       //request by form method post
       form.innerHTML += `<input type="text" name="payment[kind]" value="autopayment"/>`;
       form.innerHTML += `<input type="text" name="payment[account_id]" value="598713"/>`;
@@ -116,7 +112,6 @@ export default {
       form.innerHTML += `<input type="text" name="payment[field2]" value='${JSON.stringify(this.voucher.personalization)}'/>`;
       form.innerHTML += `<input type="text" name="payment[field3]" value='${JSON.stringify(this.voucher.shippingMethod)}'/>`;
       form.innerHTML += `<input type="text" name="payment[field4]" value='${JSON.stringify(tabIdGift)}'/>`;
-
       form.submit();
     },
     nextStep() {

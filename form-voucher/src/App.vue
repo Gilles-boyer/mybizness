@@ -1,3 +1,4 @@
+
 <template>
   <v-app>
     <v-app-bar app color="primary" dark absolute>
@@ -43,7 +44,6 @@
   import urlBase from "./data/urlBase.json"
 export default {
   name: 'App',
-
   data: () => ({
     url: urlBase.base,
   })

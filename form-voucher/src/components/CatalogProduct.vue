@@ -1,22 +1,22 @@
 <template>
   <v-list>
-    <v-list-group v-for="item in items" :key="item.title" v-model="item.active" :prepend-icon="item.action"
+    <v-list-group v-for="cat in categories" :key="cat.id" v-model="cat.active" :prepend-icon="cat.icon"
       color="primary" no-action>
       <template v-slot:activator>
         <v-list-item-content>
-          <v-list-item-title v-text="item.title"></v-list-item-title>
+          <v-list-item-title v-text="cat.name"></v-list-item-title>
         </v-list-item-content>
       </template>
 
-      <v-list-item v-for="data in item.items" :key="data.label" class="pa-0">
+      <v-list-item v-for="product in cat.products" :key="product.id" class="pa-0">
         <v-list-item-avatar>
-          <img :src="data.img" />
+          <img :src="product.img" />
         </v-list-item-avatar>
         <v-list-item-content>
           <v-card-text>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <span v-bind="attrs" v-on="on">{{ data.label }} - {{ data.price }} €
+                <span v-bind="attrs" v-on="on">{{ product.name }} - {{ product.price }} €
                 </span>
               </template>
               <span>
@@ -34,54 +34,22 @@
 </template>
 
 <script>
+  import apiProduct from "../service/product"
 export default {
-  data() {
-    const srcs = {
-      1: "https://www.letelegramme.fr/images/2019/07/12/cette-piste-du-gp-circuit-je-pourrais-la-faire-les-yeux_4687124.jpg",
-      2: "https://cdn.abcmoteur.fr/wp-content/uploads/2014/12/Renault-Megane-RS-Easydrift.jpg",
-    };
+  data() {  
     return {
-      items: [
-        {
-          action: "mdi-go-kart",
-          items: [
-            {
-              id: "karting1",
-              img: srcs[1],
-              label: "karting de 10min pour une personne",
-              price: 15,
-            },
-            {
-              id: "karting2",
-              img: srcs[1],
-              label: "karting de 2 x 10min pour une personne",
-              price: 28,
-            },
-          ],
-          title: "Karting",
-        },
-        {
-          action: "mdi-car-select",
-          items: [
-            {
-              id: "easy1",
-              img: srcs[2],
-              label: "Baptême de easydrift",
-              price: 39,
-            },
-            {
-              id: "easy2",
-              img: srcs[2],
-              label: "Inititiation Easydrift 20min",
-              price: 89,
-            },
-          ],
-          title: "Easydrift",
-        },
-      ],
+      categories:[]
     };
   },
+  mounted() {
+    this.initProducts();
+  },
   methods: {
+    async initProducts() {
+      var res = await apiProduct.getProductByCat()
+      this.categories = res.data.data;
+      console.log(res);
+    },
     addProduct(product) {
       this.$emit("productToAdd", product);
     },
