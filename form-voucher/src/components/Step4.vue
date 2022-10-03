@@ -34,26 +34,26 @@
     <v-card-title> Méthode d'envoie : </v-card-title>
 
     <v-card-text style="background-color: white; width: 80%" class="mx-auto pt-2 rounded-xl primary--text">
-      {{ confirmationData.shippingMethod.label }}
+      {{ confirmationData.shipping.name }}
     </v-card-text>
 
     <v-card-title> Votre personnalisation du bon: </v-card-title>
     <v-card-text style="background-color: white; width: 80%" class="mx-auto pt-2 rounded-xl primary--text">
       <strong>Message :</strong> {{ confirmationData.personalization.message }}
       <br />
-      <strong>Theme :</strong>
-      {{ confirmationData.personalization.theme.name }} <br />
+      <strong>Image :</strong>
+      {{ confirmationData.personalization.image.name }} <br />
       <strong>Couleur du bon :</strong>
-      <v-icon :color="confirmationData.personalization.backgroundColor">mdi-circle</v-icon>
+      <v-icon :color="confirmationData.personalization.color.hex">mdi-circle</v-icon>
       <br />
       <strong>Style d'écriture :</strong>
-      {{ confirmationData.personalization.fontFamily }}
+      {{ confirmationData.personalization.font.font }}
     </v-card-text>
 
     <v-card-title> Liste des cadeaux : </v-card-title>
     <v-card-text style="background-color: white; width: 80%" class="mx-auto pt-2 rounded-xl primary--text">
-      <v-card-text v-for="(gift, index) in confirmationData.giftsList" :key="index">
-        <strong>Désignation:</strong> {{ gift.label }} <br>
+      <v-card-text v-for="(gift, index) in confirmationData.gifts" :key="index">
+        <strong>Désignation:</strong> {{ gift.name }} <br>
         <strong> valeur :</strong> {{ gift.price }}€
       </v-card-text>
       <v-list-item>
@@ -76,8 +76,8 @@ export default {
     totalGift() {
       var total = 0;
 
-      if (this.confirmationData.giftsList.length > 0) {
-        this.confirmationData.giftsList.forEach(gift => total += gift.price);
+      if (this.confirmationData.gifts.length > 0) {
+        this.confirmationData.gifts.forEach(gift => total += parseInt(gift.price));
       }
 
       return total

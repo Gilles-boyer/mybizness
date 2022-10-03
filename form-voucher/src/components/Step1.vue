@@ -75,7 +75,7 @@ export default {
       if (this.gifts.length > 0) {
         this.active = false;
         this.gifts.forEach((item) => {
-          total += item.price;
+          total += parseInt(item.price);
         });
       }
       return total;

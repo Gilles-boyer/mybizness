@@ -27,7 +27,7 @@
             </v-tooltip>
           </v-card-text>
         </v-list-item-content>
-        <v-btn @click="addProduct(data)" text color="primary">Ajouter</v-btn>
+        <v-btn @click="addProduct(product)" text color="primary">Ajouter</v-btn>
       </v-list-item>
     </v-list-group>
   </v-list>
@@ -43,12 +43,12 @@ export default {
   },
   mounted() {
     this.initProducts();
+    
   },
   methods: {
     async initProducts() {
       var res = await apiProduct.getProductByCat()
       this.categories = res.data.data;
-      console.log(res);
     },
     addProduct(product) {
       this.$emit("productToAdd", product);

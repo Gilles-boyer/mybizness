@@ -49,19 +49,9 @@
         </v-text-field>
 
         <v-select
-          v-model="shippingMethod"
-          :items="items"
-          item-text="label"
-          :rules="[rule.required]"
-          label="Mode de transmission du bon cadeau"
-          required
-          return-object
-        ></v-select>
-
-        <v-select
-          v-model="shippingMethod"
-          :items="items"
-          item-text="label"
+          v-model="shipping"
+          :items="shippings"
+          item-text="name"
           :rules="[rule.required]"
           label="Mode de transmission du bon cadeau"
           required
@@ -105,7 +95,7 @@
         ></v-text-field>
 
         <v-text-field
-          v-if="!shippingMethod.beneficiaryMailOptional"
+          v-if="!shipping.beneficiaryMailOptional"
           v-model="beneficiary.email"
           :rules="[rule.required, rule.validMail]"
           label="E-mail"
@@ -129,6 +119,7 @@
   </v-form>
 </template>
 <script>
+import apiShipping from "../service/shipping";
 export default {
   data: () => ({
     valid: true,
@@ -144,7 +135,7 @@ export default {
       tel: "",
       email: "",
     },
-    shippingMethod: "",
+    shipping: "",
     rule: {
       required: (v) => !!v || "Ce champ est obligatoire",
       minCharTel: (v) =>
@@ -155,32 +146,24 @@ export default {
       number: (v) => /[0-9]/.test(v) || "Merci de saisir que des chiffres",
     },
 
-    items: [
-      {
-        id: 1,
-        label: "je souhaite récupérer le bon sur place",
-        beneficiaryMailOptional: true,
-      },
-      {
-        id: 2,
-        label: "je souhaite recevoir par mail le bon",
-        beneficiaryMailOptional: true,
-      },
-      {
-        id: 3,
-        label: "Evoyer le bon par mail au bénéficaire",
-        beneficiaryMailOptional: false,
-      },
-    ],
+    shippings: [],
     checkbox: false,
   }),
 
+  mounted() {
+    this.initShipping();
+  },
+
   methods: {
+    async initShipping() {
+      var res = await apiShipping.getShipping();
+      this.shippings = res.data.data;
+    },
     validate() {
       if (this.$refs.form.validate()) {
         var dataForm = {
-          client: this.client,
-          shippingMethod: this.shippingMethod,
+          customer: this.client,
+          shipping: this.shipping,
         };
 
         if (this.checkbox) {
@@ -188,8 +171,6 @@ export default {
         } else {
           dataForm.beneficiary = this.beneficiary;
         }
-
-        dataForm.beneficiary.isForHim = this.checkbox;
 
         this.$emit("dataForm", dataForm);
       }

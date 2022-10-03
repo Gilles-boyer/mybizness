@@ -1,39 +1,79 @@
 <template>
   <v-row justify="center" align="center" class="f100">
     <v-col cols="12" sm="12" md="8" xl="8">
-      <ModelBonKdo :themeGift="theme" :fontGift="fontFamily" :messageGift="dataMessage" :background="colorGift.code" />
+      <ModelBonKdo
+        :themeGift="image"
+        :fontGift="font.font"
+        :messageGift="dataMessage"
+        :background="color.hex"
+      />
     </v-col>
     <v-col cols="12" sm="12" md="4" xl="4">
       <v-form ref="form" align="center" v-model="valid" lazy-validation>
-        <v-textarea :rules="messageRules" :counter="150" v-model="message" label="Votre message"></v-textarea>
+        <v-textarea
+          :rules="messageRules"
+          :counter="150"
+          v-model="message"
+          label="Votre message"
+        ></v-textarea>
 
-        <v-select v-model="theme" :items="listTheme" item-text="name" :rules="[(v) => !!v || 'Item is required']"
-          label="Theme du bon cadeau" required return-object></v-select>
+        <v-select
+          v-model="image"
+          :items="images"
+          item-text="name"
+          :rules="[(v) => !!v.id || 'Item is required']"
+          label="Theme du bon cadeau"
+          required
+          return-object
+        ></v-select>
 
-        <v-select v-model="fontFamily" :items="listFontFamily" item-text="name" item-value="code"
-          :rules="[(v) => !!v || 'Item is required']" label="Style d'écriture du bon cadeau" required></v-select>
+        <v-select
+          v-model="font"
+          :items="fonts"
+          item-text="name"
+          item-value="font"
+          :rules="[(v) => !!v.id || 'Item is required']"
+          label="Style d'écriture du bon cadeau"
+          return-object
+          required
+        ></v-select>
 
+        <v-select
+          v-model="color"
+          :items="colors"
+          item-text="name"
+          :rules="[(v) => !!v.id || 'Item is required']"
+          label="Couleur du Bon Cadeau"
+          required
+          return-object
+        ></v-select>
 
-        <v-select v-model="colorGift" :items="listColor" item-text="name" :rules="[(v) => !!v || 'Item is required']"
-          label="Couleur du Bon Cadeau" required return-object></v-select>
-
-
-
-        <v-btn width="100%" :disabled="!valid" color="primary" @click="validate">
+        <v-btn
+          width="100%"
+          :disabled="!valid"
+          color="primary"
+          @click="validate"
+        >
           Valider
         </v-btn>
       </v-form>
     </v-col>
-    <v-overlay color="primary" :absolute="absolute" :opacity="opacity" :value="overlay">
+    <v-overlay
+      color="primary"
+      :absolute="absolute"
+      :opacity="opacity"
+      :value="overlay"
+    >
       <v-img :src="url + '/public/image/rotatePhone.gif'"></v-img>
     </v-overlay>
   </v-row>
 </template>
 <script>
 import ModelBonKdo from "./ModelBonKdo";
-import dataFontFamily from "../data/listFontFamily.json";
-import dataColor from "../data/listColor.json";
-import urlBase from "../data/urlBase.json"
+import urlBase from "../data/urlBase.json";
+import apiImage from "../service/Image";
+import apiFont from "../service/font";
+import apiColors from "../service/color";
 export default {
   components: {
     ModelBonKdo,
@@ -41,15 +81,12 @@ export default {
   data: () => ({
     url: urlBase.base,
     absolute: true,
-    colorGift: { name: "Bleu", code: "primary" },
-    listColor: dataColor,
-    listTheme: [
-      { id:1, name: "Standard", img: "https://lh3.googleusercontent.com/Kw1ECouosamsscGTfG-BjnXJTg1wklDYUaDozZ5x_DQb4NTQ2xntYd6ERgA5pHEsEwRzNVBv8X8eeIx6=s0" },
-      { id:2, name: "Easydrift", img: "https://easydriftdts.com/wp-content/uploads/2019/04/cfg_boutique.jpg" }
-    ],
-    listFontFamily: dataFontFamily,
-    fontFamily: "Roboto",
-    theme: { id:1, name: "Standard", img: "https://lh3.googleusercontent.com/Kw1ECouosamsscGTfG-BjnXJTg1wklDYUaDozZ5x_DQb4NTQ2xntYd6ERgA5pHEsEwRzNVBv8X8eeIx6=s0" },
+    color: {},
+    colors: [],
+    images: [],
+    fonts: [],
+    font: {},
+    image: {},
     opacity: 1,
     overlay: false,
     valid: true,
@@ -60,30 +97,36 @@ export default {
   }),
   computed: {
     dataMessage() {
-      return this.message = this.message.substring(0, 150);
-    }
+      return (this.message = this.message.substring(0, 150));
+    },
   },
   methods: {
+    async initColor() {
+      var res = await apiColors.getColors();
+      this.colors = res.data.data;
+    },
+    async initImage() {
+      var res = await apiImage.getImages();
+      this.images = res.data.data;
+    },
+    async initFont() {
+      var res = await apiFont.getFonts();
+      this.fonts = res.data.data;
+    },
     validate() {
       if (this.$refs.form.validate()) {
         if (this.message == "Votre message") {
-          this.message = "A trés vite au circuit !"
+          this.message = "A trés vite au circuit !";
         }
         var personalization = {
-          theme: this.theme.id,
-          backgroundColor: this.colorGift.code,
-          fontFamily: this.fontFamily,
+          color: this.color.id,
+          image: this.image.id,
+          font: this.font.id,
           message: this.message,
         };
 
-        this.$emit('dataPersonalization', personalization);
+        this.$emit("dataPersonalization", personalization);
       }
-    },
-    reset() {
-      this.$refs.form.reset();
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation();
     },
     checkSizeWindowWidth() {
       if (window.innerWidth < 667) {
@@ -97,6 +140,9 @@ export default {
   },
   mounted() {
     this.checkSizeWindowWidth();
+    this.initImage();
+    this.initFont();
+    this.initColor();
   },
   created() {
     window.addEventListener("resize", this.myEventHandler);

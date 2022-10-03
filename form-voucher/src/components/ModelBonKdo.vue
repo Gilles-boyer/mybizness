@@ -2,7 +2,7 @@
   <v-card :style="fontFamily" class="rounded-xl white--text mt-4 mb-4" :color="background">
     <v-row justify="center" align-content="center" class="f100 pa-2">
       <v-col cols="3">
-        <v-img :aspect-ratio="sizeImg" style="border-radius: 25px" :src="themeGift.img"></v-img>
+        <v-img :aspect-ratio="sizeImg" style="border-radius: 25px" :src="themeGift.src" :alt="themeGift.description"></v-img>
       </v-col>
       <v-col cols="9">
         <v-row align="stretch" justify="space-between" align-content="space-between" class="f100">
