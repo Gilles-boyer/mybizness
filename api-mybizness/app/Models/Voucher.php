@@ -21,16 +21,26 @@ class Voucher extends Model
         'voucher_color',
         'voucher_font',
         'fk_order_id',
-        'fk_theme_id',
+        'fk_image_id',
+        'fk_font_id',
+        'fk_color_id',
         'fk_shipping_id'
     ];
 
-    public function theme()
+    public function font()
     {
-        return $this->hasOne(Theme::class, "id", "fk_theme_id");
+        return $this->hasOne(Font::class, "id", "fk_font_id");
     }
     public function order()
     {
         return $this->hasOne(Order::class, "id", "fk_order_id");
+    }
+    public function image()
+    {
+        return $this->hasOne(Image::class, "id", "fk_image_id");
+    }
+    public function color()
+    {
+        return $this->hasOne(Color::class, "id", "fk_color_id");
     }
 }

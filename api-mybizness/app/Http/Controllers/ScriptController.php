@@ -6,7 +6,8 @@ use Exception;
 use App\Models\Script;
 use App\Http\Requests\DeleteRequest;
 use App\Http\Requests\ScriptRequest;
-use App\Http\Requests\ProcessRequest;
+use App\Http\Requests\RequestVoucherOnLine;
+use App\Http\Requests\RequestVoucherOnSite;
 use App\Http\Resources\ScriptResource;
 
 class ScriptController extends Controller
@@ -60,10 +61,15 @@ class ScriptController extends Controller
         }
     }
 
-    public function loadScript(ProcessRequest $request)
+    /**
+     * builder script for execute action script for build object result
+     * @param Request $request
+     * @param Script $script
+     * @return response result script
+     */
+    public function loadScript($request, $script)
     {
         $results = [];
-        $script = $this->show($request->id);
         foreach ($script->methods as $method) {
             try {
                 $results = call_user_func_array(
@@ -75,5 +81,29 @@ class ScriptController extends Controller
             }
         }
         return $results;
+    }
+
+
+    /**
+     *
+     */
+    public function voucherOnSite(RequestVoucherOnSite $request)
+    {
+        $request = (object)$request->validated();
+        $script = $this->show($request->id);
+        return $this->loadScript($request, $script);
+    }
+
+
+    /**
+     * create order and voucher for web client
+     * @param App\Http\Requests\RequestVoucherOnLine $request
+     * @return function loadScript
+     */
+    public function voucherOnLine(RequestVoucherOnLine $request)
+    {
+        $request = (object)$request->validated();
+        $script = $this->show($request->id);
+        return $this->loadScript($request, $script);
     }
 }

@@ -20,8 +20,6 @@ class VoucherController extends Controller
 {
     public $ruleVoucher = [
         'message'           => "required|string",
-        'backgroundColor'   => "required|string",
-        'fontFamily'        => "required|string",
     ];
 
     /**
@@ -74,12 +72,10 @@ class VoucherController extends Controller
         return $this->createValidatorVoucherId($id, "getVoucherById");
     }
 
-    public function validatorVoucher($message, $color, $font)
+    public function validatorMessageVoucher($message)
     {
         $request = [
-            'message'           => (string)$message,
-            'backgroundColor'   => (string)$color,
-            'fontFamily'        => (string)$font
+            'message'           => $message,
         ];
         return  Validator::make(
             $request,
@@ -96,14 +92,6 @@ class VoucherController extends Controller
         return $validator->validated();
     }
 
-    public function completeValidate($validate, $result)
-    {
-        $validate['order']      = $result['order']->id;
-        $validate['theme']      = $result['theme']->id;
-        $validate['shipping']   = $result['shipping']->id;
-        return $validate;
-    }
-
     /**
      * Observable : true
      * Name : generate new voucher
@@ -111,17 +99,15 @@ class VoucherController extends Controller
      */
     public function generateVoucher($request, $results)
     {
-        $personalization = json_decode($request->personalization);
-        $validator = $this->validatorVoucher(
-            $personalization->message,
-            $personalization->backgroundColor,
-            $personalization->fontFamily
-        );
-        $this->completeValidate($this->validatedVoucher($validator), $results);
-        $voucher = $this->store(
-            $this->completeValidate($this->validatedVoucher($validator), $results)
-        );
-        $results['voucher'] = $voucher;
+        $personalization = $request->personalization;
+        if(gettype($request->personalization) === "string"){
+            $personalization    =   json_decode($personalization);
+        }
+        $personalization =(object)$personalization;
+        $validator = $this->validatorMessageVoucher($personalization->message);
+        $validated = $this->validatedVoucher($validator);
+        $results['message'] =   $validated['message'];
+        $results['voucher'] =   $this->store($results);
         return $results;
     }
 
@@ -132,16 +118,15 @@ class VoucherController extends Controller
      */
     public function store($request)
     {
-        $voucher = new Voucher([
-            "voucher_num"       => (string)Uuid::uuid4(),
-            "voucher_validity"  => date("Y-m-d", strtotime(now() . ' + 100 days')),
-            "voucher_message"   => $request['message'],
-            "voucher_color"     => $request['backgroundColor'],
-            "voucher_font"      => $request['fontFamily'],
-            "fk_order_id"       => $request['order'],
-            "fk_theme_id"       => $request['theme'],
-            "fk_shipping_id"    => $request['shipping']
-        ]);
+        $voucher = new Voucher();
+        $voucher->voucher_num = (string)Uuid::uuid4();
+        $voucher->voucher_validity = date("Y-m-d", strtotime(now() . ' + 100 days'));
+        $voucher->voucher_message = $request['message'];
+        $voucher->fk_image_id = $request['image']->id;
+        $voucher->fk_font_id = $request['font']->id;
+        $voucher->fk_color_id = $request['color']->id;
+        $voucher->fk_order_id = $request['order']->id;
+        $voucher->fk_shipping_id = $request['shipping']->id;
         $voucher->save();
         return new VoucherResource($voucher);
     }

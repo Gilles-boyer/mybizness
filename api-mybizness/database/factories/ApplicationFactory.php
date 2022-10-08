@@ -16,7 +16,8 @@ class ApplicationFactory extends Factory
         return [
             'app_name' => $this->faker->city(),
             'app_host'=> $this->faker->domainName(),
-            'app_token' => $this->faker->sha256(),
+            'app_token' => $this->faker->uuid(),
+            'app_activate' =>$this->faker->boolean()
         ];
     }
 }

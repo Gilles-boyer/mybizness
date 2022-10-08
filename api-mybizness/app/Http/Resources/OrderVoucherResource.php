@@ -19,9 +19,9 @@ class OrderVoucherResource extends JsonResource
             "num"       => $this->voucher_num,
             "validity"  => $this->voucher_validity,
             "message"   => $this->voucher_message,
-            "color"     => $this->voucher_color,
-            "font"      => $this->voucher_font,
-            "theme"     => new VoucherThemeResource($this->theme),
+            "color"     => new ColorOnlineResource($this->color),
+            "font"      => new FontOnlineResource($this->font),
+            "image"     => new ImageOnlineResource($this->image)
         ];
     }
 }

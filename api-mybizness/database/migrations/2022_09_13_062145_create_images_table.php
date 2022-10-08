@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateThemesTable extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateThemesTable extends Migration
      */
     public function up()
     {
-        Schema::create('themes', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('theme_name',50);
-            $table->string('theme_description');
-            $table->string('theme_img');
-            $table->boolean('theme_online');
+            $table->string('image_name');
+            $table->string('image_src');
+            $table->string('image_description');
+            $table->boolean('online')->default(false);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateThemesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('themes');
+        Schema::dropIfExists('images');
     }
 }

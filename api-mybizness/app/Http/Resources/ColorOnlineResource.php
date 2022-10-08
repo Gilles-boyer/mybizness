@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class VoucherThemeResource extends JsonResource
+class ColorOnlineResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +16,8 @@ class VoucherThemeResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "image" => $this->theme_img,
+            "name" => $this->color_name,
+            "hex"  => $this->color_hex
         ];
     }
 }

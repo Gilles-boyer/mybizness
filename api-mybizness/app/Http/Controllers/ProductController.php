@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Product;
+use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProcductModelResource;
 
 /**
  * Observable : true
@@ -12,6 +14,9 @@ use App\Models\Product;
  */
 class ProductController extends Controller
 {
+    public function indexOnline() {
+        return  ProcductModelResource::collection(Product::where("product_online", true)->get());
+    }
     public function validatedIdProduct($validator)
     {
         if ($validator->fails()) {
@@ -19,7 +24,6 @@ class ProductController extends Controller
         }
         return $validator->validated();
     }
-
     public function show($id)
     {
         return Product::find($id);
@@ -34,8 +38,11 @@ class ProductController extends Controller
     {
         $results['gifts'] = [];
         $results['total'] = 0;
-        foreach (json_decode($request->gifts) as $giftId) {
-            $validate = $this->validatedIdProduct($this->validateId(['id' => $giftId], "Product"));
+        if(gettype($request->gifts) === "string"){
+            $request->gifts = json_decode($request->gifts);
+        }
+        foreach ($request->gifts as $giftId) {
+            $validate = $this->validatedIdProduct($this->validateId(['id' => (int)$giftId], "Product"));
             $product = $this->show($validate['id']);
             $results['total'] += $product->product_price;
             array_push($results['gifts'], $product);

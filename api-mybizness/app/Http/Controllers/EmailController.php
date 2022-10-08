@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\ConfirmationOrderSendEmail;
-use App\Jobs\VoucherSendEmail;
 use App\Models\Order;
+use App\Jobs\VoucherSendEmail;
+use App\Http\Resources\OrderResource;
+use App\Http\Resources\VoucherResource;
+use App\Jobs\ConfirmationOrderSendEmail;
 
 /**
  * Observable : true
@@ -44,7 +46,7 @@ class EmailController extends Controller
     public function loadVoucheCustomer($request, $results)
     {
         $this->sendMailVoucher($results['voucher'], $results['customer']->user_email);
-        return  Utility::responseValid("commande traité");
+        return  Utility::responseValid("commande traité", new OrderResource($results['order']));
     }
 
     /**
@@ -55,7 +57,7 @@ class EmailController extends Controller
     public function loadVoucherBeneficiary($request, $results)
     {
         $this->sendMailVoucher($results['voucher'], $results['beneficiary']->user_email);
-        return  Utility::responseValid("commande traité");
+        return  Utility::responseValid("commande traité", new OrderResource($results['order']));
     }
 
     /**

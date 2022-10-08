@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Application;
 use App\Models\PaiementMethod;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,6 +21,7 @@ class OrderFactory extends Factory
             'fk_client_id' => User::all()->random()->id,
             'fk_beneficiary_id' => User::all()->random()->id,
             'fk_paiement_id' => PaiementMethod::all()->random()->id,
+            'fk_app_id'      => Application::all()->random()->id
         ];
     }
 }

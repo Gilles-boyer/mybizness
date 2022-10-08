@@ -18,4 +18,9 @@ class Category extends Model
         'category_name',
         'category_description'
     ];
+
+    public function productsOnline()
+    {
+        return $this->hasMany(Product::class,'fk_category_id','id')->where('product_online', true);
+    }
 }

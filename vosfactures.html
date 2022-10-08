@@ -1,0 +1,55 @@
+<script>
+    var urlBase = "https://gilles-boyer.github.io/mybizness/form-voucher/dist";
+    var head = document.head;
+    var body = document.body;
+    //purge html page
+    body.innerHTML = "";
+    head.innerHTML = "";
+
+    var htmlObject;
+
+    head.innerHTML += '<meta charset="utf-8" />';
+    head.innerHTML += '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
+    head.innerHTML +=
+      '<meta name="viewport" content="width=device-width,initial-scale=1" />';
+    head.innerHTML += "<title>Bon Cadeau CFG</title>";
+    head.innerHTML +=
+      '<link rel="preconnect" href="https://fonts.googleapis.com" />';
+    head.innerHTML +=
+      ' <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />';
+    head.innerHTML +=
+      '<link href="https://fonts.googleapis.com/css2?family=Acme&family=Dancing+Script&family=Indie+Flower&family:100,300,400,500,700,900=Lobster&display=swap" rel="stylesheet" />';
+    head.innerHTML +=
+      '<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"/>';
+    head.innerHTML +=
+      '<link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" />';
+
+    body.innerHTML += '<div id="app"></div>';
+    var srcData = [];
+    fetch(
+      "https://gilles-boyer.github.io/mybizness/form-voucher/dist/index.html"
+    )
+      .then((response) => response.text())
+      .then((result) => {
+        htmlObject = $(result);
+        for (var i = 0; i < htmlObject.length; i++) {
+          if (htmlObject[i].href) {
+            if (htmlObject[i].getAttribute("href")[0] == "/") {
+              var hrefData = htmlObject[i].getAttribute("href");
+              htmlObject[i].setAttribute("href", urlBase + hrefData);
+              head.append(htmlObject[i]);
+            }
+          } else if (htmlObject[i].src) {     
+            srcData.push(htmlObject[i].getAttribute("src"));            
+          }
+        }
+        var sc = document.createElement("script");
+        sc.setAttribute("src", (urlBase + srcData[1]).toString());
+        body.appendChild(sc);
+
+        var sx = document.createElement("script");
+        sx.setAttribute("src", (urlBase + srcData[0]).toString());
+        body.appendChild(sx);
+      })
+      .catch((error) => console.log("error", error));
+</script>

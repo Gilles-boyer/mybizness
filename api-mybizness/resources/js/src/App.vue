@@ -1,6 +1,7 @@
 <template>
   <v-app app>
     <snackbar />
+    <OverlayVue />
     <Navigation v-if="connected" />
     <v-main style="background-color: gray">
       <router-view />

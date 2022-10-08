@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PaymentResource;
 use App\Models\PaiementMethod;
 
 /**
@@ -23,6 +24,22 @@ class PaiementController extends Controller
 
     /**
      * Observable : true
+     * Name : find payment
+     * Description : find method payment object by id
+     */
+    public function loadPaymentMethodById($request, $results)
+    {
+        $results['paiement'] = $this->show((int)$request->payment);
+        return $results;
+    }
+
+    public function show($id)
+    {
+        return PaiementMethod::find($id);
+    }
+
+    /**
+     * Observable : true
      * Name : Stripe paiement
      * Description : attribute stripe paiement method in order
      */
@@ -30,5 +47,10 @@ class PaiementController extends Controller
     {
         $results['paiement'] = $this->getPaiement("stripe");
         return $results;
+    }
+
+    public function index()
+    {
+        return PaymentResource::collection(PaiementMethod::all());
     }
 }

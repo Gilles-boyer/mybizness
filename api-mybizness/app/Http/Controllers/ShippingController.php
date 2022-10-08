@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderResource;
+use App\Http\Resources\ShippingOnlineResource;
+use App\Http\Resources\VoucherResource;
 use Exception;
 use App\Models\ShippingMethod;
 
@@ -12,12 +15,10 @@ use App\Models\ShippingMethod;
  */
 class ShippingController extends Controller
 {
-    public function validatedShippingId($validator)
+
+    public function indexOnline()
     {
-        if ($validator->fails()) {
-            throw new Exception($validator->errors());
-        }
-        return $validator->validated();
+        return ShippingOnlineResource::collection(ShippingMethod::where("shipping_online", true)->get());
     }
 
     /**
@@ -27,17 +28,13 @@ class ShippingController extends Controller
      */
     public function loadShippingMethod($request, $results)
     {
-        $shipping = json_decode($request->shipping);
-
-        $results['shipping'] = $this->show(
-            $this->validatedShippingId($this->validateId(['id' => $shipping->id], "ShippingMethod"))
-        );
+        $results['shipping'] = $this->show($request->shipping);
         return $results;
     }
 
     public function show($id)
     {
-        return ShippingMethod::find($id)->first();
+        return ShippingMethod::find($id);
     }
 
     /**
@@ -52,5 +49,15 @@ class ShippingController extends Controller
             array(Action::loadClass($method->id), $method->method),
             array($request, $results)
         );
+    }
+
+     /**
+     * Observable : true
+     * Name : send take on place
+     * Description : return response
+     */
+    public function takeOnPlace($request, $results)
+    {
+        return  Utility::responseValid("commande traité", new OrderResource($results['order']));
     }
 }

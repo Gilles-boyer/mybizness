@@ -1,0 +1,38 @@
+[
+    {
+        "name" : "Bleu",
+        "code" : "#04153B"
+    },
+    {
+        "name" : "Rouge",
+        "code" : "#FE001A"
+    },
+    {
+        "name" : "Gris",
+        "code" : "#A09F9F"
+    },
+    {
+        "name" : "Noir",
+        "code" : "#000000"
+    },
+    {
+        "name" : "Vert",
+        "code" : "#28370F"
+    },
+    {
+        "name" : "Rose",
+        "code" : "#E84191"
+    },
+    {
+        "name" : "Turquoise",
+        "code" : "#30A7B2"
+    },
+    {
+        "name" : "Violet",
+        "code" : "#5E17EB"
+    },
+    {
+        "name" : "Orange",
+        "code" : "#C88A00"
+    }
+]

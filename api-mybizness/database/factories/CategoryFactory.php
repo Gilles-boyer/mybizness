@@ -15,7 +15,8 @@ class CategoryFactory extends Factory
     {
         return [
             'category_name' => $this->faker->jobTitle(),
-            'category_description' => $this->faker->text($maxNbChars = 100)
+            'category_description' => $this->faker->text($maxNbChars = 100),
+            'category_icon' => "mdi-go-kart-track"
         ];
     }
 }

@@ -60,7 +60,7 @@ class ApplicationController extends Controller
      */
     public function getAppByToken(string $token)
     {
-        return Application::where("app_token", $token)->first();
+        return Application::where("app_token", $token)->get();
     }
 
     /**

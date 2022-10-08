@@ -3,9 +3,12 @@
 namespace Database\Factories;
 
 use DateTime;
+use App\Models\Font;
+use App\Models\Color;
+use App\Models\Image;
 use App\Models\Order;
-use App\Models\ShippingMethod;
 use App\Models\Theme;
+use App\Models\ShippingMethod;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VoucherFactory extends Factory
@@ -22,10 +25,10 @@ class VoucherFactory extends Factory
             'voucher_num' => $this->faker->uuid(),
             'voucher_validity' => date_add($today, date_interval_create_from_date_string("90 days"))->format('d-m-y'),
             'voucher_message' => $this->faker->realText(100, 1),
-            'voucher_color' => $this->faker->hexcolor(),
-            'voucher_font' => $this->faker->jobTitle(),
             'fk_order_id' => Order::all()->random()->id,
-            'fk_theme_id' => Theme::all()->random()->id,
+            'fk_image_id' => Image::all()->random()->id,
+            'fk_font_id' => Font::all()->random()->id,
+            'fk_color_id' => Color::all()->random()->id,
             'fk_shipping_id' => ShippingMethod::all()->random()->id,
         ];
     }

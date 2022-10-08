@@ -20,6 +20,7 @@ class OrderedController extends Controller
      */
     public function createOrderOnline($request, $results)
     {
+        $this->adapterOrderOnline($results);
         $results['order'] = $this->storeOrder($this->adapterOrderOnline($results));
         $this->createProductOrders($results);
         return $results;
@@ -37,13 +38,32 @@ class OrderedController extends Controller
 
     public function adapterOrderOnline($results)
     {
-        return [
+        $base = [
             "order_total"       => $results['total'],
             "fk_client_id"      => $results['customer']->id,
             "fk_beneficiary_id" => $results['beneficiary']->id,
             "fk_paiement_id"    => $results['paiement']->id,
-            "fk_app_id"         => $results['app']->id
         ];
+
+        if(isset($results['app'])) {
+          $base = [
+                "order_total"       => $results['total'],
+                "fk_client_id"      => $results['customer']['id'],
+                "fk_beneficiary_id" => $results['beneficiary']['id'],
+                "fk_paiement_id"    => $results['paiement']->id,
+                "fk_app_id"         => $results['app'][0]->id,
+            ];
+        } else {
+            $base = [
+                "order_total"       => $results['total'],
+                "fk_client_id"      => $results['customer']->id,
+                "fk_beneficiary_id" => $results['beneficiary']->id,
+                "fk_paiement_id"    => $results['paiement']->id,
+                "fk_staff_id"       => 1 //user auth
+            ];
+        }
+
+        return $base;
     }
 
     public function adapterProductOrder($productId, $orderId)
@@ -56,7 +76,19 @@ class OrderedController extends Controller
 
     public function storeOrder($adapter)
     {
-        return Order::create($adapter);
+        $order = new order();
+        $order->order_total =  $adapter['order_total'];
+        $order->fk_client_id = $adapter['fk_client_id'];
+        $order->fk_beneficiary_id = $adapter['fk_beneficiary_id'];
+        $order->fk_paiement_id = $adapter['fk_paiement_id'];
+        if(isset($adapter['fk_app_id'])){
+            $order->fk_app_id = $adapter['fk_app_id'];
+        } else {
+            $order->fk_staff_id = 1 ;//user auth
+        }
+        $order->save();
+
+        return $order;
     }
 
     public function storeProductOrder($adapter)

@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RoleMethodFactory extends Factory
+class ColorFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,7 +14,9 @@ class RoleMethodFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "color_name" => $this->faker->colorName(),
+            "color_hex" => $this->faker->hexcolor(),
+            "online" => $this->faker->boolean()
         ];
     }
 }

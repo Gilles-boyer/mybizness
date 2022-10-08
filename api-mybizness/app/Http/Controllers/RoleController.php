@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\RoleResource;
 use App\Models\Role;
+use App\Http\Resources\RoleResource;
+use App\Http\Requests\RoleStoreRequest;
 
 
 class RoleController extends Controller
@@ -36,5 +37,63 @@ class RoleController extends Controller
                 Role::all()
             )
         );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(RoleStoreRequest $request)
+    {
+        $role = Role::create([
+            "role_name"         => $request->name,
+            "role_description"  => $request->description
+        ]);
+
+        return Utility::responseValid(
+            "role created",
+            new RoleResource($role),
+            201
+        );
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Client  $client
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Role $role)
+    {
+        return Utility::responseValid("role id:".$role->id, new RoleResource($role));
+    }
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Client  $client
+     * @return \Illuminate\Http\Response
+     */
+    public function update(RoleStoreRequest $request, Role $role)
+    {
+        $role->role_name = $request->name;
+        $role->role_description = $request->description;
+        $role->save();
+
+        return Utility::responseValid("role updated", new RoleResource($role));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Client  $client
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy()
+    {
+        //
     }
 }
