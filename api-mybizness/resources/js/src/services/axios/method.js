@@ -10,5 +10,8 @@ export default {
             role_id: role_id
         }
         return api.put("rolemethod/update/relation", data);
-    }
+    },
+    getAllMethods() {
+        return api.get('methods');
+    },
 };

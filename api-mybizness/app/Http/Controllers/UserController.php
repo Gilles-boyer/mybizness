@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\User;
 use App\Http\Controllers\Utility;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\UserModelResource;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -118,4 +121,75 @@ class UserController extends Controller
         $user->save();
         return new UserResource($user);
     }
+
+    public function index()
+    {
+        return UserModelResource::collection(User::all());
+    }
+
+        /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(UserRequest $request)
+    {
+        $validated = (object)$request->validated();
+        $user = new User();
+
+        try {
+            $newUser = $this->defineParamsUser($validated, $user);
+        } catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de création");
+        }
+        return Utility::responseValid("user créé",$newUser, 201);
+    }
+
+    public function defineParamsUser($params, $user)
+    {
+        $user->user_first_name  = $params->first_name;
+        $user->user_last_name   = $params->last_name;
+        $user->user_phone       = $params->phone;
+        $user->user_email       = $params->email;
+        $user->fk_role_id       = $params->role_id;
+        $user->save();
+        return  new UserModelResource($user);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UserUpdateRequest $request, User $user)
+    {
+        $validated = (object)$request->validated();
+        try{
+            $user->fk_role_id       = $validated->role_id;
+            $user->save();
+        }catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de modification");
+        }
+        return Utility::responseValid("user modifiée");
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        try {
+            $user->delete();
+        } catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de suppression");
+        }
+        return Utility::responseValid("user supprimée");
+    }
+
 }

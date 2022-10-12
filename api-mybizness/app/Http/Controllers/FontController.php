@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FontStoreRequest;
 use Exception;
 use App\Models\Font;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\FontOnlineResource;
-
+use App\Http\Resources\FontResource;
 
 /**
  * Observable : true
@@ -64,8 +65,9 @@ class FontController extends Controller
      */
     public function index()
     {
-        //
+        return FontResource::collection(Font::all());
     }
+
 
     /**
      * Display a listing of the resource.
@@ -78,25 +80,44 @@ class FontController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FontStoreRequest $request)
     {
-        //
+        $validated = (object)$request->validated();
+        $font = new Font();
+
+        try {
+            $newFont = $this->defineParamsFont($validated, $font);
+        } catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de création");
+        }
+        return Utility::responseValid("font créé",$newFont, 201);
     }
+
+    public function defineParamsFont($params, $font)
+    {
+        $font->font_name = $params->name;
+        $font->font_font = $params->font;
+        $font->save();
+        return  new FontResource($font);
+    }
+
+    public function updateOnline(Font $font)
+    {
+        try{
+            $font->online =  !$font->online;
+            $font->save();
+        }catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur modification font online");
+        }
+        return Utility::responseValid("online font modifiée");
+    }
+
+
 
     /**
      * Display the specified resource.
@@ -110,26 +131,21 @@ class FontController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Font  $font
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Font $font)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Font  $font
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Font $font)
+    public function update(FontStoreRequest $request, Font $font)
     {
-        //
+        $validated = (object)$request->validated();
+        try{
+            $this->defineParamsFont($validated, $font);
+        }catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de modification");
+        }
+        return Utility::responseValid("font modifiée");
     }
 
     /**
@@ -140,6 +156,11 @@ class FontController extends Controller
      */
     public function destroy(Font $font)
     {
-        //
+        try {
+            $font->delete();
+        } catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de suppression");
+        }
+        return Utility::responseValid("font supprimée");
     }
 }

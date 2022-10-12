@@ -4,5 +4,14 @@
     },
     "dancingscript": {
         "normal": "dancingscript_normal_3a303902e639193cbaf3b55990d2b76f"
+    },
+    "silkscreen": {
+        "normal": "silkscreen_normal_a17bcd88f6901446863fbc2978317e76"
+    },
+    "peralta": {
+        "normal": "peralta_normal_93b5b78d658edf061c9cc6b36f176432"
+    },
+    "ubuntu": {
+        "normal": "ubuntu_normal_a9b4465f75f1e035e352908784fee311"
     }
 }

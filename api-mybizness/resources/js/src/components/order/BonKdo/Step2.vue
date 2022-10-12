@@ -98,9 +98,6 @@ export default {
     },
     message: {
       get() {
-        if (this.getPersonalization.message) {
-          return "Votre message";
-        }
         return this.getPersonalization.message;
       },
       set(value) {

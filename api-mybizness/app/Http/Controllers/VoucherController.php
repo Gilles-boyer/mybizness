@@ -8,6 +8,7 @@ use App\Models\Voucher;
 use App\Http\Controllers\Utility;
 use App\Http\Resources\VoucherResource;
 use App\Http\Controllers\EmailController;
+use App\Models\ProductOrder;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -137,11 +138,11 @@ class VoucherController extends Controller
      * @param int $days
      * @return function addMoreDaysValidityVoucher
      */
-    public function updateValidity(int $id, int $days)
+    public function updateValidity(Voucher $voucher, int $days)
     {
         try {
             return $this->addMoreDaysValidityVoucher(
-                $this->show($id),
+                $voucher,
                 $this->validateDays((int)$days)
             );
         } catch (Exception $e) {
@@ -168,7 +169,7 @@ class VoucherController extends Controller
      * @param int $days
      * @return Response
      */
-    public function addMoreDaysValidityVoucher($voucher, int $days)
+    public function addMoreDaysValidityVoucher($voucher,int $days)
     {
         $voucher->voucher_validity =  date("Y-m-d", strtotime($voucher->voucher_validity . " + $days days"));
         $voucher->save();
@@ -281,5 +282,17 @@ class VoucherController extends Controller
         } catch (Exception $e) {
             Utility::responseError($e->getMessage());
         }
+    }
+    /**
+     * update date used for specific ProductOrder
+     * @param ProductOrder $productOrder
+     * @return Response
+     */
+    public function updateUsedProduct(ProductOrder $productOrder)
+    {
+        $productOrder->used =  date("Y-m-d H:i:s", strtotime('+4 hours'));
+        $productOrder->save();
+
+        return Utility::responseValid("utilisation produit mis à jour");
     }
 }

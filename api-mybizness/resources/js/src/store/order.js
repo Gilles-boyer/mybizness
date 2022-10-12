@@ -17,6 +17,9 @@ export default {
         },
         PUSH_ORDER(state, data) {
             state.orders.push(data);
+        },
+        DELETE_ORDER_INDEX(state, index) {
+            state.orders.splice(index, 1);
         }
     },
     actions: {
@@ -34,6 +37,17 @@ export default {
                 commit('PUSH_ORDER', res.data.data);
                 index.commit("SET_OVERLAY_OFF");
             }).catch(err => console.log(err.toString()))
+        },
+        deleteOrder({commit}, data) {
+            index.commit("SET_OVERLAY_ON");
+            apiOrder.deleteOrder(data.id).then(res =>{
+                commit("DELETE_ORDER_INDEX", data.index);
+                index.commit("SET_SNACK_DATA", {
+                    message: "commande voucher effacé",
+                    color:"success"
+                });
+                index.commit("SET_OVERLAY_OFF");
+            });
         }
     },
 };

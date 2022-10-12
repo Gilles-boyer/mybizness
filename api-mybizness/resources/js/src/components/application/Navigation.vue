@@ -90,7 +90,12 @@ export default {
       dateProd: data.date,
       items: [
         { title: "Bon Cadeau", icon: "mdi-gift", to: "/order" },
-        { title: "Circuit", icon: "mdi-racing-helmet", to: "/circuit" },
+        { title: "Utilisateur", icon: "mdi-account", to: "/user" },
+        {
+          title: "Application",
+          icon: "mdi-monitor-screenshot",
+          to: "/application",
+        },
         { title: "Script", icon: "mdi-folder", to: "/script" },
       ],
       mini: true,
@@ -109,8 +114,11 @@ export default {
             return 1;
             break;
 
-          case "Circuit":
+          case "User":
             return 2;
+            break;
+          case "Application":
+            return 3;
             break;
 
           default:

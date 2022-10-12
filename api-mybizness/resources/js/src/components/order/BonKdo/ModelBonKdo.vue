@@ -166,7 +166,7 @@ export default {
         if (!this.getPersonalization.font) {
           return "Roboto";
         }
-        return this.getPersonalization.font.font;
+        return this.getPersonalization.font.name;
       },
     },
     Color: {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Role;
 use App\Http\Resources\RoleResource;
 use App\Http\Requests\RoleStoreRequest;
@@ -89,11 +90,16 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Client  $client
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(Role $role)
     {
-        //
+        try {
+            $role->delete();
+        } catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de suppression");
+        }
+        return Utility::responseValid("role supprimé");
     }
 }

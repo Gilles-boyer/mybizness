@@ -36,4 +36,14 @@ class BaseRequest extends FormRequest
     {
         throw new HttpResponseException(Utility::responseError([], "connexion non autorisé"));
     }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return Utility::$errors;
+    }
 }

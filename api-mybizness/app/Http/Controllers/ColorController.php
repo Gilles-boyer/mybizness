@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Color;
 use Illuminate\Http\Request;
+use App\Http\Resources\ColorResource;
+use App\Http\Requests\ColorStoreRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ColorOnlineResource;
 
@@ -62,7 +64,7 @@ class ColorController extends Controller
      */
     public function index()
     {
-        //
+        return ColorResource::collection(Color::all());
     }
 
     /**
@@ -77,25 +79,44 @@ class ColorController extends Controller
 
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ColorStoreRequest $request)
     {
-        //
+        $validated = (object)$request->validated();
+        $font = new Color();
+
+        try {
+            $newColor = $this->defineParamsColor($validated, $font);
+        } catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de création");
+        }
+        return Utility::responseValid("font créé",$newColor, 201);
     }
+
+    public function defineParamsColor($params, $color)
+    {
+        $color->color_name = $params->name;
+        $color->color_hex =  $params->hex;
+        $color->save();
+        return  new ColorResource($color);
+    }
+
+
+    public function updateOnline(Color $color)
+    {
+        try{
+            $color->online =  !$color->online;
+            $color->save();
+        }catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur modification color online");
+        }
+        return Utility::responseValid("online color modifiée");
+    }
+
 
     /**
      * Display the specified resource.
@@ -109,26 +130,21 @@ class ColorController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Color  $color
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Color $color)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Color  $color
+     * @param  \App\Models\Font  $font
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Color $color)
+    public function update(ColorStoreRequest $request, Color $color)
     {
-        //
+        $validated = (object)$request->validated();
+        try{
+            $this->defineParamsColor($validated, $color);
+        }catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de modification");
+        }
+        return Utility::responseValid("color modifiée");
     }
 
     /**
@@ -139,6 +155,11 @@ class ColorController extends Controller
      */
     public function destroy(Color $color)
     {
-        //
+        try {
+            $color->delete();
+        } catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de suppression");
+        }
+        return Utility::responseValid("Color supprimée");
     }
 }

@@ -184,8 +184,8 @@ export default {
         payment: this.getPaymentStep3.id,
         total: this.getTotalGifts,
       };
-      console.log(data);
-      //this.newOrders(data);
+      //console.log(data);
+      this.newOrders(data);
     },
   },
 };

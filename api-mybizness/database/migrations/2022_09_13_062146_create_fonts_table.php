@@ -16,7 +16,7 @@ class CreateFontsTable extends Migration
         Schema::create('fonts', function (Blueprint $table) {
             $table->id();
             $table->string('font_name');
-            $table->string('font_font');
+            $table->text('font_font');
             $table->boolean('online')->default(false);
             $table->timestamps();
         });

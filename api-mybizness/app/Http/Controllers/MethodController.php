@@ -8,6 +8,7 @@ use App\Http\Controllers\Utility;
 use App\Http\Resources\MethodRessource;
 use App\Http\Resources\ClassNameResource;
 use App\Http\Controllers\RoleMethodController;
+use App\Http\Resources\MethodModelResource;
 
 class MethodController extends Controller
 {
@@ -144,5 +145,10 @@ class MethodController extends Controller
         $method->fk_class_id = $comment['fk_class_id'];
         $method->save();
         return $method;
+    }
+
+    public function index()
+    {
+        return MethodModelResource::collection(Method::all());
     }
 }

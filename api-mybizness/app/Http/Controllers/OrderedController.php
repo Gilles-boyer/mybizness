@@ -100,4 +100,13 @@ class OrderedController extends Controller
     {
         return OrderResource::collection(Order::all());
     }
+
+    public function destroy(Order $order)
+    {
+        if($order->delete());
+        {
+            return Utility::responseValid("order deleted");
+        }
+
+    }
 }

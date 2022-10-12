@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ImageStoreRequest;
 use Exception;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ImageOnlineResource;
+use App\Http\Resources\ImageResource;
+use BaconQrCode\Renderer\ImageRenderer;
+use PhpParser\Node\Stmt\TryCatch;
 
 /**
  * Observable : true
@@ -71,17 +75,7 @@ class ImageController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return ImageResource::collection(Image::all());
     }
 
     /**
@@ -90,9 +84,27 @@ class ImageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ImageStoreRequest $request)
     {
-        //
+        $validated = (object)$request->validated();
+        $image = new Image();
+
+        try {
+            $newImage = $this->defineParamsImage($validated, $image);
+        } catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de création");
+        }
+        return Utility::responseValid("image créé",$newImage, 201);
+    }
+
+    public function defineParamsImage($params, $image)
+    {
+        $image->image_name = $params->name;
+        $image->image_description = $params->description;
+        $image->image_src = $params->url;
+        $image->save();
+
+        return  new ImageResource($image);
     }
 
     /**
@@ -106,15 +118,15 @@ class ImageController extends Controller
         return Image::find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Image $image)
+    public function updateOnline(Image $image)
     {
-        //
+        try{
+            $image->online =  !$image->online;
+            $image->save();
+        }catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur modification image online");
+        }
+        return Utility::responseValid("online image modifiée");
     }
 
     /**
@@ -124,9 +136,16 @@ class ImageController extends Controller
      * @param  \App\Models\Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Image $image)
+    public function update(ImageStoreRequest $request, Image $image)
     {
-        //
+        $validated = (object)$request->validated();
+
+        try{
+            $this->defineParamsImage($validated, $image);
+        }catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de modification");
+        }
+        return Utility::responseValid("image modifiée");
     }
 
     /**
@@ -137,6 +156,11 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
-        //
+        try {
+            $image->delete();
+        } catch (Exception $e) {
+            return Utility::responseError($e->getMessage(), "erreur de suppression");
+        }
+        return Utility::responseValid("image supprimée");
     }
 }
