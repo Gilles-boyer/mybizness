@@ -40,7 +40,7 @@
           ><v-icon color="white" class="mx-2">mdi-account</v-icon></v-btn
         >
         <v-btn icon
-          ><v-icon color="white" class="mx-2">mdi-logout</v-icon></v-btn
+          ><v-icon color="white" class="mx-2" @click="logout()">mdi-logout</v-icon></v-btn
         >
       </v-list-item-icon>
     </v-list-item>
@@ -76,14 +76,12 @@
 </template>
   <script >
 import data from "../../../../../package.json";
+import {mapActions, mapGetters} from "vuex"
 
 export default {
   name: "Navigation",
   data() {
     return {
-      user: {
-        name: "Gilles BOYER",
-      },
       drawer: true,
       appName: data.name,
       version: data.version,
@@ -102,6 +100,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['user']),
     selectedItem: {
       get: function () {
         var route = this.$router.history.current.name;
@@ -129,6 +128,8 @@ export default {
       set: function (value) {},
     },
   },
-  methods: {},
+  methods: {
+    ...mapActions(['logout']),
+  },
 };
 </script>

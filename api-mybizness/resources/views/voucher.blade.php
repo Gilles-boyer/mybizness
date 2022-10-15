@@ -91,6 +91,9 @@
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
     </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>window.axios = require('axios');
+        window.axios.defaults.withCredentials = true;
+        window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';</script>
 </head>
 
 <body>

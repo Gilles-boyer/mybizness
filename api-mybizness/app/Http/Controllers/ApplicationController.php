@@ -108,6 +108,11 @@ class ApplicationController extends Controller
         return $results;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return mixed
+     */
     public function index()
     {
         return ApplicationResource::collection(Application::all());
@@ -131,7 +136,14 @@ class ApplicationController extends Controller
         return Utility::responseValid("application créé",$newApp, 201);
     }
 
-    public function defineParamsApp($params, $app)
+    /**
+     * set param for to save model application
+     *
+     * @param object $params
+     * @param Application $app
+     * @return ApplicationResource
+     */
+    public function defineParamsApp(object $params,Application $app):ApplicationResource
     {
         $app->app_name  = $params->name;
         $app->app_host  = $params->host;
@@ -140,6 +152,12 @@ class ApplicationController extends Controller
         return  new ApplicationResource($app);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param Application $application
+     * @return void
+     */
     public function updateActivate(Application $application)
     {
         try{

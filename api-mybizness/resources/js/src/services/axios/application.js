@@ -24,5 +24,11 @@ export default {
     },
     updateAppActivate(id) {
         return api.put(`application/${id}/activate`);
+    },
+    checkTokenExist(token) {
+        return api.post('application/password/reset', token)
+    },
+    updateUserPassword(data) {
+        return api.post('user/reset/password', data)
     }
 };

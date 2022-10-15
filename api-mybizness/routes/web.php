@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\ClassNameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,6 @@ use App\Http\Controllers\AppController;
 |
 */
 
-Route::prefix('/')->group(function () {
+Route::prefix('app')->group(function () {
     Route::get('/{any}', [AppController::class, 'index'])->where('any', '.*');
 });
-

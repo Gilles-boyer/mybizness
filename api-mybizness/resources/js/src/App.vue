@@ -2,7 +2,7 @@
   <v-app app>
     <snackbar />
     <OverlayVue />
-    <Navigation v-if="connected" />
+    <Navigation v-if="authenticated" />
     <v-main style="background-color: gray">
       <router-view />
     </v-main>
@@ -12,6 +12,8 @@
 import Navigation from "./components/application/Navigation.vue";
 import snackbar from "./components/general/SnackBar.vue";
 import OverlayVue from "./components/general/Overlay.vue";
+import {  mapGetters } from "vuex";
+
 export default {
   name: "App",
   components: {
@@ -21,8 +23,11 @@ export default {
   },
   data() {
     return {
-      connected: true,
+      connected: false,
     };
+  },
+  computed: {
+    ...mapGetters(['authenticated'])
   },
 };
 </script>

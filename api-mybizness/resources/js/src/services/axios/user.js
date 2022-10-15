@@ -13,4 +13,13 @@ export default {
     updateUser(id, data) {
         return api.put(`user/${id}/update`, data);
     },
+    sendLinkResetPassword(email) {
+        return api.post('application/send/reset/link', email);
+    },
+    login(login) {
+        return api.post('login', login);
+    },
+    logout() {
+        return api.get(`logout`);
+    }
 };

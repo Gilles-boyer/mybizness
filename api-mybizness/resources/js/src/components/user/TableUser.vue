@@ -108,6 +108,7 @@
 
     <!-- action -->
     <template v-slot:item.actions="{ item }">
+      <v-icon small class="mr-2" @click="sendResetPassword(item)"> mdi-lock-reset</v-icon>
       <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
       <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
     </template>
@@ -218,6 +219,23 @@ export default {
 
   methods: {
     ...mapActions(["openSnack"]),
+
+    sendResetPassword(user)
+    {
+      apiUser.sendLinkResetPassword({email:user.email}).then(res => {
+        this.openSnack({
+          message: "lien pour le mot de passe envoyé",
+          color: "success",
+        });
+      }).catch(err => {
+        console.log(err.toString);
+        this.openSnack({
+          message: "erreur d'envoi du mail pour le mot de passe",
+          color: "error",
+        });
+      })
+    },
+
     initialize() {
       apiUser.getAllUsers().then((res) => {
         this.users = res.data.data;
@@ -226,6 +244,7 @@ export default {
         this.roles = res.data.data;
       });
     },
+
     colorChipsForRoleUser(roleName) {
       if (roleName === "admin") {
         return "primary";

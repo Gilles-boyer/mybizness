@@ -16,10 +16,13 @@ import step1 from './step1';
 import step2 from './step2';
 import step3 from './step3';
 import payment from './payment';
+import login from './login';
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  plugins: [createPersistedState()],
   modules: {
     classMethod : classMethod,
     snackBar : snackBar,
@@ -36,6 +39,7 @@ export default new Vuex.Store({
     step1:step1,
     step2:step2,
     step3:step3,
-    payment:payment
+    payment:payment,
+    login:login
   }
 })
