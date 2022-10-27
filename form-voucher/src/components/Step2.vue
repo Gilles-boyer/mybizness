@@ -134,7 +134,7 @@ export default {
 
         this.$emit("dataPersonalization", personalization);
       }
-    },
+    },    
     checkSizeWindowWidth() {
       if (window.innerWidth < 550) {
         return (this.overlay = true);
