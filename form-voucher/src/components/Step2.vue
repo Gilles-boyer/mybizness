@@ -3,7 +3,7 @@
     <v-col cols="12" sm="12" md="8" xl="8">
       <ModelBonKdo
         :themeGift="image"
-        :fontGift="font.font"
+        :fontGift="font.name"
         :messageGift="dataMessage"
         :background="color.hex"
       />
@@ -101,6 +101,12 @@ export default {
     },
   },
   methods: {
+    chargePolice(item) {
+      document.head.insertAdjacentHTML(
+        "beforeend",
+        `<style>@import url('${item.font}');</style>`
+      );
+    },
     async initColor() {
       var res = await apiColors.getColors();
       this.colors = res.data.data;
@@ -112,6 +118,7 @@ export default {
     async initFont() {
       var res = await apiFont.getFonts();
       this.fonts = res.data.data;
+      res.data.data.forEach((font) => this.chargePolice(font));
     },
     validate() {
       if (this.$refs.form.validate()) {
@@ -129,7 +136,7 @@ export default {
       }
     },
     checkSizeWindowWidth() {
-      if (window.innerWidth < 667) {
+      if (window.innerWidth < 550) {
         return (this.overlay = true);
       }
       return (this.overlay = false);

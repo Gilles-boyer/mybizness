@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default axios.create({
     //baseURL: `${location.origin}/api`,
-    baseURL: `http://localhost:8000/api`,
+    baseURL: `https://mybizness.herokuapp.com/api`,
     headers: {
 
         //'Authorization': 'Bearer ' + localStorage.getItem('token'),
